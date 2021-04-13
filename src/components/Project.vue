@@ -42,12 +42,12 @@ export default {
   methods: {
     setCardOffset(){
       let cardStack = document.getElementsByClassName('cardBody')
-      let offset = window.innerWidth/200
+      let offset = window.innerWidth/250
       let stackIndex = cardStack.length
 
       for (let i = 0; i < cardStack.length; i++ ){
         cardStack[i].style.marginLeft = `${i * offset}px`
-        cardStack[i].style.marginBottom = `-${i * offset}px`
+        cardStack[i].style.marginTop = `${(i * offset)/2}px`
         cardStack[i].style.zIndex = stackIndex
 
         cardStack[i].dataset.z = stackIndex
@@ -71,6 +71,7 @@ export default {
       card.addEventListener('mousedown', event => {
         card.dataset.isHold = "1"
         card.style.zIndex = cardStack.length + 1
+        card.style.transform = "scale(1.07)"
 
         let rect = card.getBoundingClientRect()
         card.dataset.clickX = event.offsetX - (rect.width/2)
@@ -104,9 +105,13 @@ export default {
             globalY < deckRect.bottom
           ){
             isDragIn = true
+            card.style.transform = "scale(1.07)"
+            card.style.opacity = "1"
           }
           else{
             isDragIn = false
+            card.style.transform = "scale(0.9)"
+            card.style.opacity = "0.9"
           }
         }                
       })
@@ -115,12 +120,21 @@ export default {
     let cardCount = cardStack.length
     function cardDroped(movedCard){
       if (movedCard.dataset.isHold == "1"){
-        movedCard.dataset.isHold = "0"
-        let movedIndex = parseInt(movedCard.dataset.z)
+        let deck = document.getElementById('deck')
+        movedCard.style.transition = "opacity 300ms, transform 300ms, margin 300ms, left 300ms, top 300ms"
+        setTimeout(() => {
+          movedCard.style.transition = "" 
+        }, 300)
 
-        movedCard.style.left = ""
-        movedCard.style.top = ""
-        
+        movedCard.dataset.isHold = "0"
+        movedCard.style.transform = ""
+        movedCard.style.opacity = "1"
+
+        console.log(deck);
+        movedCard.style.left = `${deck.offsetLeft}px`
+        movedCard.style.top = `${deck.offsetTop}px`
+
+        let movedIndex = parseInt(movedCard.dataset.z)        
         if(isDragIn){ 
           // Card go on the top
           updateCardPosition(movedCard, cardCount)
@@ -129,7 +143,7 @@ export default {
           for (let card of cardStack){
             let cardIndex = parseInt(card.dataset.z)
 
-            if (cardIndex > movedIndex){
+            if (cardIndex >= movedIndex){
               cardIndex -= 1
 
               updateCardPosition(card, cardIndex)
@@ -142,7 +156,7 @@ export default {
           for (let card of cardStack){
             let cardIndex = parseInt(card.dataset.z)
 
-            if (cardIndex < movedIndex){
+            if (cardIndex <= movedIndex){
               cardIndex += 1
               updateCardPosition(card, cardIndex)
             }
@@ -151,13 +165,13 @@ export default {
       }
     }
 
-    let offset = window.innerWidth/200
+    let offset = window.innerWidth/250
     function updateCardPosition(card, cardIndex){
       card.style.zIndex = cardIndex
       card.dataset.z = cardIndex
       
       card.style.marginLeft = `${(cardCount - cardIndex) * offset}px`
-      card.style.marginBottom = `${(cardCount - cardIndex) * offset}px`
+      card.style.marginTop = `${(cardCount - cardIndex) * (offset/2)}px`
     }
   }
 }
@@ -195,6 +209,8 @@ export default {
   grid-column: 1;
   grid-row: 1;
   border: 1px solid white;
+
+  transition: opacity 300ms, transform 300ms, margin 300ms;
   transition-timing-function: ease-out;
 }
 .cardBody *
@@ -209,7 +225,7 @@ export default {
 }
 .cardBody:hover
 {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 /* Title */
 .cardBody p
