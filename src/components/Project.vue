@@ -36,19 +36,21 @@ export default {
   name: 'Project',
   data(){
     return {
-      projectList: require('../assets/data.json')
+      projectList: require('../assets/data.json'),
     }
   },
   methods: {
     setCardOffset(){
       let cardStack = document.getElementsByClassName('cardBody')
       let offset = window.innerWidth/200
-      let stackIndex = cardStack.length + 1
+      let stackIndex = cardStack.length
 
       for (let i = 0; i < cardStack.length; i++ ){
         cardStack[i].style.marginLeft = `${i * offset}px`
         cardStack[i].style.marginBottom = `-${i * offset}px`
         cardStack[i].style.zIndex = stackIndex
+
+        cardStack[i].dataset.z = stackIndex
 
         stackIndex--
       }    
@@ -59,35 +61,103 @@ export default {
       this.setCardOffset()
     })
     this.setCardOffset()
-
-
+    
+    let isDragIn = true
+    // Cards event
     let cardStack = document.getElementsByClassName('cardBody')
     for (let card of cardStack){
       card.dataset.isHold = "0"
 
       card.addEventListener('mousedown', event => {
         card.dataset.isHold = "1"
+        card.style.zIndex = cardStack.length + 1
 
         let rect = card.getBoundingClientRect()
         card.dataset.clickX = event.offsetX - (rect.width/2)
         card.dataset.clickY = event.offsetY - (rect.height/2)
       })
       card.addEventListener('mouseup', () => {
-        card.dataset.isHold = "0"
+        cardDroped(card)
       })
       card.addEventListener('mouseleave', () => {
-        card.dataset.isHold = "0"
+        cardDroped(card)
       })
       card.addEventListener('mousemove', event => {
+        // Drag Card
         if (card.dataset.isHold == "1"){
           let rect = card.getBoundingClientRect()
           let x = card.offsetLeft + (event.offsetX - (rect.width/2)) - parseInt(card.dataset.clickX)
           let y = card.offsetTop + (event.offsetY - (rect.height/2)) - parseInt(card.dataset.clickY)
 
-          card.style.marginLeft = `${x}px`
-          card.style.marginTop = `${y}px`
-        }
+          card.style.left = `${x}px`
+          card.style.top = `${y}px`
+
+          // Is the card on the deck
+          let deckRect = document.getElementById('deck').getBoundingClientRect()
+          let globalX = card.offsetLeft + (parseInt(card.dataset.clickX) + (rect.width/2))
+          let globalY = card.offsetTop + (parseInt(card.dataset.clickY) + (rect.height/2))
+
+          if ( 
+            deckRect.left < globalX &&
+            globalX < deckRect.right &&
+            deckRect.top < globalY &&
+            globalY < deckRect.bottom
+          ){
+            isDragIn = true
+          }
+          else{
+            isDragIn = false
+          }
+        }                
       })
+    }
+
+    let cardCount = cardStack.length
+    function cardDroped(movedCard){
+      if (movedCard.dataset.isHold == "1"){
+        movedCard.dataset.isHold = "0"
+        let movedIndex = parseInt(movedCard.dataset.z)
+
+        movedCard.style.left = ""
+        movedCard.style.top = ""
+        
+        if(isDragIn){ 
+          // Card go on the top
+          updateCardPosition(movedCard, cardCount)
+          
+          // Decrease other cards
+          for (let card of cardStack){
+            let cardIndex = parseInt(card.dataset.z)
+
+            if (cardIndex > movedIndex){
+              cardIndex -= 1
+
+              updateCardPosition(card, cardIndex)
+            }
+          }
+        }
+        else{
+          updateCardPosition(movedCard, 1)
+
+          for (let card of cardStack){
+            let cardIndex = parseInt(card.dataset.z)
+
+            if (cardIndex < movedIndex){
+              cardIndex += 1
+              updateCardPosition(card, cardIndex)
+            }
+          }
+        }        
+      }
+    }
+
+    let offset = window.innerWidth/200
+    function updateCardPosition(card, cardIndex){
+      card.style.zIndex = cardIndex
+      card.dataset.z = cardIndex
+      
+      card.style.marginLeft = `${(cardCount - cardIndex) * offset}px`
+      card.style.marginBottom = `${(cardCount - cardIndex) * offset}px`
     }
   }
 }
@@ -99,10 +169,15 @@ export default {
   background-color: #1a1a1a;
   height: 100vh;
   width: 100vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #deck
 {
-  height: 100%;
+  height: 60vh;
+  width: 40vh;
 
   display: grid;
   align-items: center;
