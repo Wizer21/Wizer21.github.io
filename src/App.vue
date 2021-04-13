@@ -1,26 +1,35 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Project />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Project from './components/Project.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
+  components: { Project }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap');
+  ::-moz-selection {
+    color: rgb(44, 44, 44);
+    background: rgb(236, 236, 236);
+  }
+  ::selection {
+    color: rgb(44, 44, 44);
+    background: rgb(236, 236, 236);
+  }
+  body
+  {
+    margin: 0px;
+    color: rgb(219, 219, 211);
+    font-family: 'Playfair Display', serif;
+  }
+  #app
+  {
+    position: relative;
+    overflow: hidden;
+  }
 </style>
