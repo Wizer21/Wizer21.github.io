@@ -1,7 +1,7 @@
 <template>
   <div id="project">
     <div id="deck">
-      <div v-for="project of projectList" :key="project.title" class="cardBody">
+      <div v-for="project of projectList" :key="project.title" class="cardBody" :data-color="project.color" :style="'background-color: ' + project.color">
         <p>
           {{ project.title }}
         </p>
@@ -121,7 +121,7 @@ export default {
     function cardDroped(movedCard){
       if (movedCard.dataset.isHold == "1"){
         let deck = document.getElementById('deck')
-        movedCard.style.transition = "opacity 300ms, transform 300ms, margin 300ms, left 300ms, top 300ms"
+        movedCard.style.transition = "opacity 300ms, transform 300ms, margin 300ms, left 300ms, top 300ms,  z-index 500ms"
         setTimeout(() => {
           movedCard.style.transition = "" 
         }, 300)
@@ -130,37 +130,43 @@ export default {
         movedCard.style.transform = ""
         movedCard.style.opacity = "1"
 
-        console.log(deck);
         movedCard.style.left = `${deck.offsetLeft}px`
         movedCard.style.top = `${deck.offsetTop}px`
 
         let movedIndex = parseInt(movedCard.dataset.z)        
-        if(isDragIn){ 
-          // Card go on the top
-          updateCardPosition(movedCard, cardCount)
+        if(isDragIn){          
+          document.getElementById('project').style.backgroundColor = movedCard.dataset.color
           
           // Decrease other cards
           for (let card of cardStack){
             let cardIndex = parseInt(card.dataset.z)
 
-            if (cardIndex >= movedIndex){
+            if (cardIndex > movedIndex){
               cardIndex -= 1
 
               updateCardPosition(card, cardIndex)
             }
           }
+
+          // Card go on the top
+          updateCardPosition(movedCard, cardCount)
         }
         else{
-          updateCardPosition(movedCard, 1)
 
           for (let card of cardStack){
             let cardIndex = parseInt(card.dataset.z)
 
-            if (cardIndex <= movedIndex){
+            if (cardIndex < movedIndex){
               cardIndex += 1
+
+              if (cardIndex == cardCount){
+                document.getElementById('project').style.backgroundColor = card.dataset.color
+              }
               updateCardPosition(card, cardIndex)
             }
           }
+
+          updateCardPosition(movedCard, 1)
         }        
       }
     }
@@ -183,6 +189,8 @@ export default {
   background-color: #1a1a1a;
   height: 100vh;
   width: 100vw;
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
 
   display: flex;
   align-items: center;
@@ -205,12 +213,11 @@ export default {
   width: 40vh;
   background-color: #262626;
   border-radius: 20px;
+  box-shadow: 0 0 5px #1a1a1a;
 
   grid-column: 1;
   grid-row: 1;
-  border: 1px solid white;
-
-  transition: opacity 300ms, transform 300ms, margin 300ms;
+  transition: opacity 300ms, transform 300ms, margin 300ms, z-index 500ms;
   transition-timing-function: ease-out;
 }
 .cardBody *
@@ -230,10 +237,9 @@ export default {
 /* Title */
 .cardBody p
 {  
-  height: 6%;
-  margin: 0;
+  height: 5.5%;
+  margin: 2%;
   font-size: 2em;
-  padding: 2%;
 }
 /* Image */
 .imageHolder
@@ -253,36 +259,43 @@ export default {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  padding: 3%;
+  height: 40%;
 }
 .bottom p
 {  
   font-size: 1em;
   width: 80%;
-  height: 30%;
 }
 .buttonsHolder
 {
   height: 15%;
   width: 15%;
 }
+.iconHolder
+{
+  padding: 10%;
+}
 .technoHolder img,
 .iconHolder img
 {  
   height: 100%;
   width: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 .technologies
 {
-  height: 10%;
+  height: 70%;
   width: 100%;
 
   display: flex;
   flex-direction: row;
+  align-items: flex-end;
 }
 .technoHolder
 {
-  height: 100%;
-  width: 10%;
+  height: 30%;
+  width: 12%;
+  margin: 0 1.5%;
 }
 </style>

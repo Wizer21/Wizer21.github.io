@@ -4,8 +4,7 @@
     "description": "Presentation of a fictitious bakery",
     "git_link": "https://github.com/Wizer21/boulangerie",
     "page_link": "https://boulangerie-showcase.herokuapp.com/",
-    "start_date": "12/04/2021",
-    "end_date": "07/04/2021",
+    "color": "#f44336",
     "image": "boulangerie.png",
     "tech": ["javascript", "html", "css", "vuejs", "locomotive"]
   }, 
@@ -14,8 +13,7 @@
     "description": "Gallery presentation based on the Deviant Art's Api.",
     "git_link": "https://github.com/Wizer21/DeviantDisplay",
     "page_link": "https://deviant-art-gallery.herokuapp.com/",
-    "start_date": "02/04/2021",
-    "end_date": "05/04/2021",
+    "color": "#e91e63",
     "image": "deviant.jpg",
     "tech": ["javascript", "html", "css", "vuejs", "threejs"]
   },  
@@ -24,8 +22,7 @@
     "description": "Web portfolio, resuming all the projects I've realized.",
     "git_link": "https://github.com/Wizer21/Wizer21.github.io",
     "page_link": "https://wizer21.github.io/",
-    "start_date": "24/03/2021",
-    "end_date": "01/04/2021",
+    "color": "#9c27b0",
     "image": "port2.jpg",
     "tech": ["javascript", "html", "css", "vuejs", "threejs", "locomotive"]
   },  
@@ -34,8 +31,7 @@
     "description": "Page showcasing the Monstera Deliciosa",
     "git_link": "https://github.com/Wizer21/Monstera",
     "page_link": "https://monsteraplant.herokuapp.com/",
-    "start_date": "21/03/2021",
-    "end_date": "23/03/2021",
+    "color": "#673ab7",
     "image": "monstera_page.jpg",
     "tech": ["javascript", "html", "css", "vuejs", "threejs", "locomotive"]
   },  
@@ -44,8 +40,7 @@
     "description": "Showcase page of the music band Reliance",
     "git_link": "https://github.com/Wizer21/Shop",
     "page_link": "https://relianceband.herokuapp.com/",
-    "start_date": "12/03/2021",
-    "end_date": "20/03/2021",
+    "color": "#3f51b5",
     "image": "reliance.jpg",
     "tech": ["javascript", "html", "css", "vuejs", "threejs", "locomotive"]
   }, 
@@ -53,8 +48,7 @@
     "title": "Shop",
     "description": "Minimalist online plant store",
     "git_link": "https://github.com/Wizer21/Shop",
-    "start_date": "03/03/2021",
-    "end_date": "11/03/2021",
+    "color": "#2196f3",
     "image": "shop.jpg",
     "tech": ["javascript", "html", "css", "vuejs", "lowdb"]
   }, 
@@ -63,8 +57,7 @@
     "description": "Web portfolio, resuming all the projects I've realized.",
     "git_link": "https://github.com/Wizer21/Portfolio1",
     "page_link": "https://portfoliomonstera.herokuapp.com/index.html",
-    "start_date": "24/02/2021",
-    "end_date": "02/03/2021",
+    "color": "#03a9f4",
     "image": "portfolio.jpg",
     "tech": ["javascript", "html", "css", "threejs", "matterjs"]
   }, 
@@ -72,8 +65,7 @@
     "title": "Swich Network",
     "description": "Learning Django throught this project, imitating a social network.",
     "git_link": "https://github.com/Wizer21/Swich_network",
-    "start_date": "20/02/2021",
-    "end_date": "22/02/2021",
+    "color": "#00bcd4",
     "image": "network.jpg",
     "tech": ["python", "django", "javascript", "html", "css", "bulma"]
   },
@@ -81,8 +73,7 @@
     "title": "Robot arm",
     "description": "This project is a 6-axis arm, managed on a Raspberry Pi and controlled from an Xbox controller.",
     "git_link": "https://github.com/Wizer21/6Servo_Robot_Arm",
-    "start_date": "01/02/2021",
-    "end_date": "19/02/2021",
+    "color": "#009688",
     "image": "arm.jpg",
     "tech": ["python", "qt", "raspberry"]
   },
@@ -90,8 +81,7 @@
     "title": "Tracking Robot",
     "description": "This project is realized on Raspberry Pi 4. This robot is equipped with 2 DC motor that allow it to move around. Two servomotor control the camera which can in this way follow objects. Both DC and servomotors can be controlled from the Qt interface or from an Xbox controller.",
     "git_link": "https://github.com/Wizer21/TrackerRobot",
-    "start_date": "17/01/2021",
-    "end_date": "01/02/2021",
+    "color": "#4caf50",
     "image": "robot_tracking.jpg",
     "tech": ["python", "qt", "raspberry"]
   },
@@ -99,8 +89,7 @@
     "title": "Synchronized Canvas",
     "description": "This project is a simple scribble application. Users can create rooms that will synchronize their canvas with the users present in the same room.",
     "git_link": "https://github.com/Wizer21/Connected_canvas",
-    "start_date": "06/01/2021",
-    "end_date": "16/01/2021",
+    "color": "#8bc34a",
     "image": "canvas.jpg",
     "tech": ["cplusplus", "qt", "nodejs", "lowdb"]
   },
@@ -108,8 +97,7 @@
     "title": "Command Generator",
     "description": "'Command Generator' is an application that generates order mail, based on copied data.",
     "git_link": "https://github.com/Wizer21/OrderGenerator",
-    "start_date": "28/12/2020",
-    "end_date": "05/01/2021",
+    "color": "#cddc39",
     "image": "table_pres.jpg",
     "tech": ["python", "qt"]
   },
@@ -117,8 +105,7 @@
     "title": "Image/Video Tracker",
     "description": "This program is able to find complex shapes from an image, depending on their color. By clicking on the video, the algorithm will get the pixel clicked and start tracking it. ",
     "git_link": "https://github.com/Wizer21/Image_Tracker",
-    "start_date": "11/12/2020",
-    "end_date": "28/12/2020",
+    "color": "#ffeb3b",
     "image": "green.jpg",
     "tech": ["python", "qt"]
   },
@@ -126,8 +113,7 @@
     "title": "TicTacToe",
     "description": "The TicTacToe game that allows you to play against the program, it analyzes the board to find the best way to deafeat you.",
     "git_link": "https://github.com/Wizer21/TicTacToe",
-    "start_date": "08/12/2020",
-    "end_date": "11/12/2020",
+    "color": "#ffc107",
     "image": "tictactoe.jpg",
     "tech": ["python", "qt"]
   },
@@ -135,8 +121,7 @@
     "title": "Swich",
     "description": "This project was mainly made to showcase my skills and keep an history of my progression.",
     "git_link": "https://github.com/Wizer21/Swich",
-    "start_date": "02/11/2020",
-    "end_date": "30/11/2020",
+    "color": "#ff9800",
     "image": "swich.jpg",
     "tech": ["cplusplus", "qt", "mariadb"]
   },
@@ -144,8 +129,7 @@
     "title": "Simulation Revendeur",
     "description": "Learning and discovery of Qt.",
     "git_link": "https://github.com/Wizer21/SimulationRevendeur",
-    "start_date": "12/10/2020",
-    "end_date": "26/10/2020",
+    "color": "#ff5722",
     "image": "Revendeur.jpg",
     "tech": ["cplusplus", "qt"]
   }
