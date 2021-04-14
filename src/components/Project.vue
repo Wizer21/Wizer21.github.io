@@ -6,7 +6,7 @@
           {{ project.title }}
         </p>
         <div class="imageHolder">
-          <img :src="require('../assets/projects_images/' + project.image)">
+          <img :src="require('../assets/projects_images/' + project.image)" @load="newLoad">
         </div>
         <div class="bottom">
           <p>
@@ -14,15 +14,15 @@
           </p>
           <div class="buttonsHolder">
             <div class="iconHolder">
-              <img :src="require('../assets/icons/github.svg')">
+              <img :src="require('../assets/icons/github.svg')" @load="newLoad">
             </div>
             <div class="iconHolder">
-              <img :src="require('../assets/icons/github.svg')">
+              <img :src="require('../assets/icons/github.svg')" @load="newLoad">
             </div>
           </div>
           <div class="technologies">
             <div v-for="techno of project.tech" :key="techno" class="technoHolder">              
-              <img :src="require('../assets/icons/' + techno + '.svg')">
+              <img :src="require('../assets/icons/' + techno + '.svg')" @load="newLoad">
             </div>
           </div>
         </div>
@@ -40,6 +40,9 @@ export default {
     }
   },
   methods: {
+    newLoad(){
+      this.$emit('newLoad')
+    },
     setCardOffset(){
       let cardStack = document.getElementsByClassName('cardBody')
       let offset = window.innerWidth/250
@@ -95,9 +98,8 @@ export default {
 
           // Is the card on the deck
           let deckRect = document.getElementById('deck').getBoundingClientRect()
-          let globalX = card.offsetLeft + (parseInt(card.dataset.clickX) + (rect.width/2))
-          let globalY = card.offsetTop + (parseInt(card.dataset.clickY) + (rect.height/2))
-
+          let globalX = rect.left + (parseInt(card.dataset.clickX) + (rect.width/2))
+          let globalY = rect.top + (parseInt(card.dataset.clickY) + (rect.height/2))
           if ( 
             deckRect.left < globalX &&
             globalX < deckRect.right &&

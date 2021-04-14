@@ -1,13 +1,28 @@
 <template>
-  <Project />
+  <Hero />
+  <Project @newLoad="newLoad"/>
 </template>
 
 <script>
 import Project from './components/Project.vue'
+import Hero from './components/Hero.vue'
 
 export default {
   name: 'App',
-  components: { Project }
+  components: { Project, Hero },
+  data(){
+    return {
+      loadCount: 0,
+    }
+  },
+  methods: {
+    newLoad(){
+      this.loadCount ++ 
+      if(this.loadCount == 113){
+        console.log("LoadFinished", this.loadCount)
+      }
+    }
+  }
 }
 </script>
 
