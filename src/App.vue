@@ -1,5 +1,5 @@
 <template>
-  <Hero />
+  <Hero ref="heroref"/>
   <Project @newLoad="newLoad"/>
 </template>
 
@@ -19,6 +19,7 @@ export default {
     newLoad(){
       this.loadCount ++ 
       if(this.loadCount == 113){
+        this.$refs.heroref.loaded()
         console.log("LoadFinished", this.loadCount)
       }
     }
