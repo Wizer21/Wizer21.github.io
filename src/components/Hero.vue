@@ -1,5 +1,13 @@
 <template>
-  <div id="hero">
+  <div id="hero">  
+  <div id="centerBubbles">
+    <div id="bubble1">
+    </div>
+    <div id="bubble2">
+    </div>
+    <div id="bubble3">
+    </div>
+  </div>
     <h1>
       Simon
     </h1>
@@ -22,6 +30,7 @@
       </div>
     </div>
   </div>
+
   <svg fill="none" id="svgHide">
     <clipPath id="bubbleClipPath" clipPathUnits="objectBoundingBox">
       <path id="path" stroke="#fcba03" fill="transparent" d="M 0.0789 0.5026 C 0.0789 0.1789 0.377 0.0767 0.5304 0.0681 C 0.7604 0.0426 0.9222 0.1874 0.9222 0.4259 C 0.9392 0.6644 0.7518 0.8774 0.5304 0.9115 C 0.2918 0.9455 0.0874 0.7496 0.0789 0.5026" />
@@ -37,6 +46,8 @@ export default {
       let textBackground = document.getElementById('textBackground')
       
       setTimeout(() => {
+        textBackground.style.marginTop = "30%"
+        textBackground.style.marginLeft = "30%"
         textBackground.style.height = "60vh"
         textBackground.style.width = "60vh"
       }, 500)
@@ -58,14 +69,43 @@ export default {
     }, 15000)
 
 
-    //Bubble event
-    let textBackground = document.getElementById('textBackground')
-    console.log(textBackground);
-    textBackground.addEventListener('mousemove', () => {
-      console.log('in');
+    document.getElementById('path').style.animation = `${this.$style["morph"]} 5s infinite`
+
+    // Bubbles animation
+    let hero = document.getElementById('hero')
+    let bubble1 = document.getElementById('bubble1')
+    let bubble2 = document.getElementById('bubble2')
+    let bubble3 = document.getElementById('bubble3')
+
+    let centerBubbles = document.getElementById('centerBubbles')
+    let lilStack = []
+    for (let i = 0; i < 3; i++){
+      let elem = document.createElement('div')
+      elem.style.zIndex = i
+      elem.style.height = `${8 - i*2}vh`
+      elem.style.width = `${8 - i*2}vh`
+      elem.style.transitionDuration = `${1000 + (i*100)}ms`     
+      elem.className = "lilBubble"
+      lilStack.push(elem)
+
+      centerBubbles.appendChild(elem)
+    }
+    
+    
+    hero.addEventListener('mousemove', event => {
+      let heroRect = hero.getBoundingClientRect()
+      let x = event.clientX - (heroRect.width/2) 
+      let y = event.clientY - (heroRect.height/2) 
+
+      bubble1.style.transform = `translate(${x/3 + (heroRect.width/4)}px, ${y*0.6}px)`
+      bubble2.style.transform = `translate(${y/2}px, ${x/3}px)`
+      bubble3.style.transform = `translate(${x*0.6}px, ${-y/2}px)`
+
+      for (let child of lilStack){
+        child.style.transform = `translate(${x*0.6}px, ${-y/2}px)`
+      }
     })
 
-    document.getElementById('path').style.animation = `${this.$style["morph"]} 5s infinite`
   }
 }
 </script>
@@ -91,8 +131,8 @@ export default {
 }
 #textBackground
 {
-  margin-top: 30%;
-  margin-left: 30%;
+  margin-top: -30%;
+  margin-left: -30%;
   position: absolute;
   overflow: hidden;
   width: 0vh;
@@ -102,11 +142,15 @@ export default {
   background-color: #262626;  
   pointer-events: all;
 
-  transition-duration: 500ms;
+  transition-duration: 1000ms;
 }
 #textBackground:hover
 {
   transform: scale(1.2);
+}
+#creaText
+{
+  margin-top: 10%;
 }
 #textBackground:hover #creaText,
 #textBackground:hover #frontText
@@ -135,6 +179,47 @@ export default {
   position: absolute;
   pointer-events: none;
 }
+/* Bubbles */
+#centerBubbles
+{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+#centerBubbles div
+{
+  position: absolute;
+  grid-column: 1;
+  grid-row: 1;
+  border-radius: 50%;
+  
+  transition-timing-function: ease-out;
+}
+#bubble1
+{
+  height: 10vh;
+  width: 10vh;
+  background-color: red;
+  transition-duration: 1500ms;
+}
+#bubble2
+{
+  height: 12vh;
+  width: 12vh;
+  background-color: rgb(53, 17, 255);
+  transition-duration: 500ms;
+}
+#bubble3
+{
+  height: 8vh;
+  width: 8vh;
+  background-color: rgb(204, 202, 60);
+  transition-duration: 1000ms;
+}
 </style>
 
 <style module>
@@ -157,4 +242,19 @@ export default {
     margin-left: 100%;
   }  
 }
+</style>
+
+<style>
+
+.lilBubble
+{
+  position: absolute;
+  grid-column: 1;
+  grid-row: 1;
+  border-radius: 50%;
+  
+  transition-timing-function: ease-out;
+  background-color: rgb(204, 202, 60);
+}
+
 </style>
