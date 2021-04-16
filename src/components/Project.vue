@@ -1,5 +1,11 @@
 <template>
   <div id="project">
+    <div id="centerBubbles">
+      <div id="bubble1">
+      </div>
+      <div id="bubble2">
+      </div>
+    </div>
     <div id="deck">
       <div v-for="project of projectList" :key="project.title" class="cardBody" :data-color="project.color" :style="'background-color: ' + project.color">
         <p>
@@ -13,15 +19,19 @@
             {{ project.description }}
           </p>
           <div class="buttonsHolder">
-            <div class="iconHolder">
-              <img :src="require('../assets/icons/github.svg')" @load="newLoad">
-            </div>
-            <div class="iconHolder">
-              <img :src="require('../assets/icons/github.svg')" @load="newLoad">
-            </div>
+            <a :href="project.git_link" target="_blank">
+              <div class="iconHolder">
+                <img :src="require('../assets/icons/github.svg')" @load="newLoad">
+              </div>
+            </a>
+            <a :href="project.page_link" target="_blank">
+              <div class="iconHolder">
+                <img :src="require('../assets/arrow.png')" @load="newLoad">
+              </div>
+            </a>
           </div>
           <div class="technologies">
-            <div v-for="techno of project.tech" :key="techno" class="technoHolder">              
+            <div v-for="techno of project.tech" :key="techno" class="technoHolder">
               <img :src="require('../assets/icons/' + techno + '.svg')" @load="newLoad">
             </div>
           </div>
@@ -36,7 +46,7 @@ export default {
   name: 'Project',
   data(){
     return {
-      projectList: require('../assets/data.json'),
+      projectList: require('../assets/data.json')
     }
   },
   methods: {
@@ -57,7 +67,7 @@ export default {
 
         stackIndex--
       }    
-    }
+    },
   },
   mounted(){
     window.addEventListener('resize', () => {
@@ -71,7 +81,8 @@ export default {
     for (let card of cardStack){
       card.dataset.isHold = "0"
 
-      card.addEventListener('mousedown', event => {
+      card.addEventListener('mousedown', event => {        
+        this.idHandOpen = false
         card.dataset.isHold = "1"
         card.style.zIndex = cardStack.length + 1
         card.style.transform = "scale(1.07)"
@@ -87,6 +98,7 @@ export default {
         cardDroped(card)
       })
       card.addEventListener('mousemove', event => {
+
         // Drag Card
         if (card.dataset.isHold == "1"){
           let rect = card.getBoundingClientRect()
@@ -115,15 +127,57 @@ export default {
             card.style.transform = "scale(0.9)"
             card.style.opacity = "0.9"
           }
-        }                
+        }  
+        else if(card.dataset.z == cardStack.length){
+          let rect = card.getBoundingClientRect()
+          let x = (event.offsetX - (rect.width/2)) / ((rect.width/2) / 7.5)
+          let y = (event.offsetY - (rect.height/2)) / ((rect.height/2) / 7.5)
+
+          card.style.transform = `perspective(300px) rotateX(${-y}deg) rotateY(${x}deg)`
+
+          x *= 3
+          y *= 3
+
+          card.children[0].style.transform = `translate(${x}px, ${y}px)`
+          card.children[0].style.textShadow = `${-x}px ${-y}px 7px #1a1a1a`
+
+          card.children[1].style.transform = `translate(${x}px, ${y}px)`
+          card.children[1].style.boxShadow = `${-x}px ${-y}px 7px rgb(38, 38, 38, 0.5)`
+
+          card.children[2].children[0].style.textShadow = `${-x}px ${-y}px 7px #1a1a1a`
+        }    
+        else{          
+          cleanCardEffects(card)
+        }  
       })
     }
+      
+    // Clean Card Effects
+    function cleanCardEffects(card){
+      card.style.transform = ""
 
+      card.children[0].style.transform = ""
+      card.children[0].style.textShadow = ""
+      card.children[1].style.transform = ""
+      card.children[1].style.boxShadow =  ""
+
+      card.children[2].children[0].style.textShadow = ""
+    }
+
+    // Card Droped
     let cardCount = cardStack.length
     function cardDroped(movedCard){
+      cleanCardEffects(movedCard)
+
+      for (let child of movedCard.children){
+        child.style.transform = ""
+        child.style.textShadow = ""
+        child.style.boxShadow = ""
+      }
+
       if (movedCard.dataset.isHold == "1"){
         let deck = document.getElementById('deck')
-        movedCard.style.transition = "opacity 300ms, transform 300ms, margin 300ms, left 300ms, top 300ms,  z-index 500ms"
+        movedCard.style.transition = "opacity 300ms, transform 300ms, margin 300ms, left 300ms, top 300ms, z-index 500ms"
         setTimeout(() => {
           movedCard.style.transition = "" 
         }, 300)
@@ -137,7 +191,7 @@ export default {
 
         let movedIndex = parseInt(movedCard.dataset.z)        
         if(isDragIn){          
-          document.getElementById('project').style.backgroundColor = movedCard.dataset.color
+          updateBubbles(movedCard.dataset.color)
           
           // Decrease other cards
           for (let card of cardStack){
@@ -162,7 +216,7 @@ export default {
               cardIndex += 1
 
               if (cardIndex == cardCount){
-                document.getElementById('project').style.backgroundColor = card.dataset.color
+                updateBubbles(card.dataset.color)
               }
               updateCardPosition(card, cardIndex)
             }
@@ -181,6 +235,33 @@ export default {
       card.style.marginLeft = `${(cardCount - cardIndex) * offset}px`
       card.style.marginTop = `${(cardCount - cardIndex) * (offset/2)}px`
     }
+
+    let centerBubbles = document.getElementById('centerBubbles')
+    
+    centerBubbles.children[0].style.animation = `${this.$style['rotate']} 15s infinite linear`
+    centerBubbles.children[1].style.animation = `${this.$style['rotate']} 10s infinite linear`
+
+
+    function updateBubbles(color){
+      let bubbles = [document.getElementById('bubble1'), document.getElementById('bubble2')]
+      
+      for (let bubble of bubbles){        
+        bubble.style.height = "0vw"
+        bubble.style.width = "0vw"
+
+        setTimeout(() => {
+          bubble.style.backgroundColor = color
+
+          let size = dice(10, 30)
+          bubble.style.height = `${size}vh`
+          bubble.style.width = `${size}vh`
+        }, 500)
+      }
+    }
+    
+    function dice(min, max){
+        return Math.random() * (max - min) + min
+    }
   }
 }
 </script>
@@ -197,6 +278,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 #deck
 {
@@ -213,7 +295,7 @@ export default {
   position: absolute;
   height: 60vh;
   width: 40vh;
-  background-color: #262626;
+  background-color: hsl(0, 0%, 15%);
   border-radius: 20px;
   box-shadow: 0 0 5px #1a1a1a;
 
@@ -242,12 +324,16 @@ export default {
   height: 5.5%;
   margin: 2%;
   font-size: 2em;
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
 }
 /* Image */
 .imageHolder
 {
   height: 50%;
   width: 100%;
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
 }
 .imageHolder img
 {
@@ -268,6 +354,8 @@ export default {
 {  
   font-size: 1em;
   width: 80%;
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
 }
 .buttonsHolder
 {
@@ -277,6 +365,13 @@ export default {
 .iconHolder
 {
   padding: 10%;
+  transition-duration: 500ms;
+  pointer-events: all;
+  cursor: pointer;
+}
+.iconHolder:hover
+{
+  transform: scale(1.2);
 }
 .technoHolder img,
 .iconHolder img
@@ -299,5 +394,63 @@ export default {
   height: 30%;
   width: 12%;
   margin: 0 1.5%;
+}
+/* Deploy */
+#buttonDeploy
+{
+  margin: 5%; 
+}
+/* Bubbles */
+#centerBubbles
+{
+  position: absolute;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  width: 100%;
+  opacity: 0.8;
+}
+#bubble1
+{
+  position: relative;
+  height: 20vh;
+  width: 20vh;
+  background-color: #262626;
+
+  margin-left: -250%;
+  border-radius: 50%;
+  transform-origin: 300% 50%;
+
+  grid-column: 1;
+  grid-row: 1;
+  transition-duration: 500ms;
+}
+#bubble2
+{
+  position: relative;
+  height: 20vh;
+  width: 20vh;
+  background-color: #262626; 
+
+  margin-left: 250%;
+  border-radius: 50%;
+  transform-origin: -200% 50%;
+  
+  grid-column: 1;
+  grid-row: 1;
+  transition-duration: 500ms;
+}
+</style>
+
+<style module>
+@keyframes rotate {
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
 }
 </style>

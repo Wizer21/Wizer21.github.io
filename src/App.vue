@@ -18,7 +18,7 @@ export default {
   methods: {
     newLoad(){
       this.loadCount ++ 
-      if(this.loadCount == 113){
+      if(this.loadCount == 68){
         this.$refs.heroref.loaded()
         console.log("LoadFinished", this.loadCount)
       }

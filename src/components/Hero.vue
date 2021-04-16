@@ -1,31 +1,33 @@
 <template>
   <div id="hero">  
-  <div id="centerBubbles">
-    <div id="bubble1">
+    <div id="videoHolder1">
+      <video autoplay muted loop>
+        <source src="../assets/video/snow.mp4" type="video/mp4">
+      </video>
     </div>
-    <div id="bubble2">
+    <div id="videoHolder2">
+      <video autoplay muted loop>
+        <source src="../assets/video/wheat.mp4" type="video/mp4">
+      </video>
     </div>
-    <div id="bubble3">
-    </div>
-  </div>
     <h1>
       Simon
     </h1>
     <div id="textBackground">
       <div id="creaText">
         <div class="textPart">
-          Creative - Creative - Creative - Creative - Creative - Creative - 
+          Creative  Creative  Creative
         </div>
-        <div class="textPart">
-          Creative - Creative - Creative - Creative - Creative - Creative - 
+        <div class="textPart"> 
+          Creative  Creative  Creative 
         </div>
       </div>
       <div id="frontText">
         <div class="textPart">
-          FrontEnd - FrontEnd - FrontEnd - FrontEnd - FrontEnd - FrontEnd - 
+          FrontEnd  FrontEnd  FrontEnd
         </div>
         <div class="textPart">
-          FrontEnd - FrontEnd - FrontEnd - FrontEnd - FrontEnd - FrontEnd - 
+          FrontEnd  FrontEnd  FrontEnd
         </div>
       </div>
     </div>
@@ -43,69 +45,66 @@ export default {
   name: 'Hero',
   methods: {
     loaded(){
-      let textBackground = document.getElementById('textBackground')
+      // Snow Image
+      let videoHolder1 = document.getElementById('videoHolder1')
+      videoHolder1.style.transform = "translate(30%, 30%)"
+      videoHolder1.style.height = "60vh"
+      videoHolder1.style.width = "60vh"
+
+      videoHolder1.addEventListener('mousemove', event => {
+        let rect = videoHolder1.getBoundingClientRect() 
+
+        let x = (event.offsetX - (rect.width/2)) / (rect.width / (rect.width/2))
+        let y = (event.offsetY - (rect.height/2))  / (rect.height / (rect.height/2))
+
+        let baseOffsetX = (rect.width/100) * 30
+        let baseOffsetY = (rect.height/100) * 30
+
+        videoHolder1.style.transform = `translate(${baseOffsetX + x}px, ${baseOffsetY + y}px) scale(1.2)`
+      })      
+      videoHolder1.addEventListener('mouseleave', () => {
+        videoHolder1.style.transform = "translate(30%, 30%)"
+      })
+
+      // Wheat Image
+      let videoHolder2 = document.getElementById('videoHolder2')
+      videoHolder2.style.transform = "translate(-200%, -100%)"
+      videoHolder2.style.height = "20vh"
+      videoHolder2.style.width = "20vh"
       
-      setTimeout(() => {
-        textBackground.style.marginTop = "30%"
-        textBackground.style.marginLeft = "30%"
-        textBackground.style.height = "60vh"
-        textBackground.style.width = "60vh"
-      }, 500)
+      videoHolder2.addEventListener('mousemove', event => {
+        let rect = videoHolder2.getBoundingClientRect() 
+
+        let x = (event.offsetX - (rect.width/2)) 
+        let y = (event.offsetY - (rect.height/2))
+
+        let baseOffsetX = -(rect.width * 1.9)
+        let baseOffsetY = -rect.height
+
+
+        videoHolder2.style.transform = `translate(${baseOffsetX + x}px, ${baseOffsetY + y}px) scale(1.2)`
+      })    
+      videoHolder2.addEventListener('mouseleave', () => {
+        videoHolder2.style.transform = "translate(-200%, -100%)"
+      })
     }
   },
   mounted() {
     // Text Slide
     let textPart = document.getElementsByClassName('textPart')
-    textPart[0].style.animation = `${this.$style["slide"]} 30s infinite linear`
-    textPart[1].style.animation = `${this.$style["slide"]} 30s infinite linear 15s`
-    textPart[2].style.animation = `${this.$style["slide"]} 30s infinite linear`
-    textPart[3].style.animation = `${this.$style["slide"]} 30s infinite linear 15s`
+    textPart[0].style.animation = `${this.$style["slide"]} 20s infinite linear`
+    textPart[1].style.animation = `${this.$style["slide"]} 20s infinite linear 10s`
+    textPart[2].style.animation = `${this.$style["slide"]} 20s infinite linear reverse`
+    textPart[3].style.animation = `${this.$style["slide"]} 20s infinite linear reverse 10s`
 
     textPart[1].style.opacity = 0
     textPart[3].style.opacity = 0
     setTimeout(() => {      
       textPart[1].style.opacity = 1
       textPart[3].style.opacity = 1
-    }, 15000)
-
+    }, 10000)
 
     document.getElementById('path').style.animation = `${this.$style["morph"]} 5s infinite`
-
-    // Bubbles animation
-    let hero = document.getElementById('hero')
-    let bubble1 = document.getElementById('bubble1')
-    let bubble2 = document.getElementById('bubble2')
-    let bubble3 = document.getElementById('bubble3')
-
-    let centerBubbles = document.getElementById('centerBubbles')
-    let lilStack = []
-    for (let i = 0; i < 3; i++){
-      let elem = document.createElement('div')
-      elem.style.zIndex = i
-      elem.style.height = `${8 - i*2}vh`
-      elem.style.width = `${8 - i*2}vh`
-      elem.style.transitionDuration = `${1000 + (i*100)}ms`     
-      elem.className = "lilBubble"
-      lilStack.push(elem)
-
-      centerBubbles.appendChild(elem)
-    }
-    
-    
-    hero.addEventListener('mousemove', event => {
-      let heroRect = hero.getBoundingClientRect()
-      let x = event.clientX - (heroRect.width/2) 
-      let y = event.clientY - (heroRect.height/2) 
-
-      bubble1.style.transform = `translate(${x/3 + (heroRect.width/4)}px, ${y*0.6}px)`
-      bubble2.style.transform = `translate(${y/2}px, ${x/3}px)`
-      bubble3.style.transform = `translate(${x*0.6}px, ${-y/2}px)`
-
-      for (let child of lilStack){
-        child.style.transform = `translate(${x*0.6}px, ${-y/2}px)`
-      }
-    })
-
   }
 }
 </script>
@@ -123,39 +122,24 @@ export default {
 }
 #hero h1
 {
-  font-size: 15vw;
-  z-index: 2;
+  font-size: 25vw;
+  z-index: 3;
   margin-left: -20%;
   pointer-events: none;
 
 }
 #textBackground
 {
-  margin-top: -30%;
-  margin-left: -30%;
   position: absolute;
   overflow: hidden;
-  width: 0vh;
-  height: 0vh;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
 
-  clip-path: url(#bubbleClipPath);
-  background-color: #262626;  
+  color: #262626;  
   pointer-events: all;
 
   transition-duration: 1000ms;
-}
-#textBackground:hover
-{
-  transform: scale(1.2);
-}
-#creaText
-{
-  margin-top: 10%;
-}
-#textBackground:hover #creaText,
-#textBackground:hover #frontText
-{
-  transform: scale(0.8);
 }
 #frontText,
 #creaText
@@ -168,11 +152,10 @@ export default {
 .textPart
 {
   white-space: nowrap;
-  font-size: 20vh;
+  font-size: 44vh;
 
   grid-column: 1;
-  grid-row: 1;
-  
+  grid-row: 1;  
 }
 #svgHide
 {
@@ -199,26 +182,30 @@ export default {
   
   transition-timing-function: ease-out;
 }
-#bubble1
+#videoHolder1,
+#videoHolder2
 {
-  height: 10vh;
-  width: 10vh;
-  background-color: red;
-  transition-duration: 1500ms;
-}
-#bubble2
-{
-  height: 12vh;
-  width: 12vh;
-  background-color: rgb(53, 17, 255);
-  transition-duration: 500ms;
-}
-#bubble3
-{
-  height: 8vh;
-  width: 8vh;
-  background-color: rgb(204, 202, 60);
+  position: absolute;
+  z-index: 2;
+
+  height: 0vh;
+  width: 0vh;
+  clip-path: url(#bubbleClipPath);
   transition-duration: 1000ms;
+  transition-timing-function: ease-out;
+}
+#videoHolder2:hover video,
+#videoHolder1:hover video
+{
+  transform: scale(1.2);
+}
+#videoHolder2 video,
+#videoHolder1 video
+{
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  transition-duration: 500ms;
 }
 </style>
 
@@ -242,19 +229,4 @@ export default {
     margin-left: 100%;
   }  
 }
-</style>
-
-<style>
-
-.lilBubble
-{
-  position: absolute;
-  grid-column: 1;
-  grid-row: 1;
-  border-radius: 50%;
-  
-  transition-timing-function: ease-out;
-  background-color: rgb(204, 202, 60);
-}
-
 </style>
