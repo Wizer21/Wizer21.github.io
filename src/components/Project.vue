@@ -293,14 +293,19 @@ export default {
     }
 
     // Background animation
+    let lastColor = null
     function updateBackground(color){
-      let backgroundColor = document.getElementById('backgroundColor')
-      backgroundColor.style.clipPath = "polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)"
+      
+      if (lastColor != color){
+        let backgroundColor = document.getElementById('backgroundColor')
+        backgroundColor.style.clipPath = "polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)"
 
-      setTimeout(() => {
-        backgroundColor.style.backgroundColor = color
-        backgroundColor.style.clipPath = "polygon(0 73%, 100% 47%, 100% 100%, 0% 100%)"
-      }, 500)
+        setTimeout(() => {
+          backgroundColor.style.backgroundColor = color
+          backgroundColor.style.clipPath = "polygon(0 73%, 100% 47%, 100% 100%, 0% 100%)"
+          lastColor = color
+        }, 500)
+      }
     }
 
     let icons = document.getElementsByClassName('iconHolder')
@@ -374,7 +379,7 @@ export default {
 .cardBody p
 {  
   margin: 0;
-  margin-left: 2%;
+  margin-left: 3%;
   height: 8%;
   font-size: 2.2em;
   transition-duration: 500ms;
@@ -484,5 +489,15 @@ export default {
 {
   font-size: 1.5em;
   margin: 0;
+}
+@media screen and (max-width: 800px) {
+  .cardBody p
+  {  
+    font-size: 1.65em;
+  }  
+  .bottom p
+  {  
+    font-size: 1.4em;
+  }
 }
 </style>

@@ -20,7 +20,8 @@ export default {
   components: { Project, Hero },
   data(){
     return {
-      loadCount: 0
+      loadCount: 0,
+      cursor: null
     }
   },
   methods: {
@@ -30,25 +31,21 @@ export default {
         console.log("LoadFinished", this.loadCount)
 
         this.$refs.heroref.loaded()
-        new Cursor(document.getElementById('cursor'))
+        this.cursor = new Cursor(document.getElementById('cursor'))        
       }
     }
   },
   mounted(){
     // Update Using touch Screen
-    let cursor = document.getElementById('cursor')
-    let usingMouse = false
-    window.addEventListener('mouseover', () => {
-      if (!usingMouse){
-        usingMouse = true
-        cursor.style.opacity = 1
+    let cachedTouch = false
+    window.addEventListener('mousemove', () => {
+      if (!cachedTouch){
+        this.cursor.catchMouse()
       }
     })
     window.addEventListener('touchstart', () => {
-      if (usingMouse){
-        usingMouse = false
-        cursor.style.opacity = 0
-      }
+      this.cursor.catchToutch()
+      cachedTouch = true
     })
   }
 }
@@ -104,7 +101,6 @@ body
 {
   transition: transform 500ms;
   transform-origin: 0 0;
-  opacity: 0;
 }
 a
 {

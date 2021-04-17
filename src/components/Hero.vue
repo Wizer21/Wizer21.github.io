@@ -47,46 +47,48 @@ export default {
     loaded(){
       // Snow Image
       let videoHolder1 = document.getElementById('videoHolder1')
-      videoHolder1.style.transform = "translate(30%, 30%)"
+      resetPosition(videoHolder1, 0.5, 0.3)
       videoHolder1.style.height = "60vh"
       videoHolder1.style.width = "60vh"
 
       videoHolder1.addEventListener('mousemove', event => {
-        let rect = videoHolder1.getBoundingClientRect() 
-
-        let x = (event.offsetX - (rect.width/2)) / (rect.width / (rect.width/2))
-        let y = (event.offsetY - (rect.height/2))  / (rect.height / (rect.height/2))
-
-        let baseOffsetX = (rect.width/100) * 30
-        let baseOffsetY = (rect.height/100) * 30
-
-        videoHolder1.style.transform = `translate(${baseOffsetX + x}px, ${baseOffsetY + y}px) scale(1.2)`
+        setPosition(videoHolder1, 0.5, 0.3, event)
       })      
       videoHolder1.addEventListener('mouseleave', () => {
-        videoHolder1.style.transform = "translate(30%, 30%)"
+        resetPosition(videoHolder1, 0.5, 0.3)
       })
 
       // Wheat Image
       let videoHolder2 = document.getElementById('videoHolder2')
-      videoHolder2.style.transform = "translate(-200%, -100%)"
+      resetPosition(videoHolder2, -0.5, -0.2)
       videoHolder2.style.height = "20vh"
       videoHolder2.style.width = "20vh"
       
       videoHolder2.addEventListener('mousemove', event => {
-        let rect = videoHolder2.getBoundingClientRect() 
-
-        let x = (event.offsetX - (rect.width/2)) 
-        let y = (event.offsetY - (rect.height/2))
-
-        let baseOffsetX = -(rect.width * 1.9)
-        let baseOffsetY = -rect.height
-
-
-        videoHolder2.style.transform = `translate(${baseOffsetX + x}px, ${baseOffsetY + y}px) scale(1.2)`
+        setPosition(videoHolder2, -0.5, -0.2, event)
       })    
       videoHolder2.addEventListener('mouseleave', () => {
-        videoHolder2.style.transform = "translate(-200%, -100%)"
+        resetPosition(videoHolder2, -0.5, -0.2)
       })
+
+      function setPosition(element, baseX, baseY, event){
+
+        let rect = element.getBoundingClientRect() 
+
+        let x = event.offsetX - (rect.width/2)
+        let y = event.offsetY - (rect.height/2)
+
+        let baseOffsetX = (window.innerHeight/2) * baseX
+        let baseOffsetY = (window.innerWidth/2) * baseY
+
+        element.style.transform = `translate(${baseOffsetX + x}px, ${baseOffsetY + y}px) scale(1.2)`
+      }
+      function resetPosition(element, baseX, baseY){
+        let baseOffsetX = (window.innerHeight/2) * baseX
+        let baseOffsetY = (window.innerWidth/2) * baseY
+
+        element.style.transform = `translate(${baseOffsetX}px, ${baseOffsetY}px) scale(1.2)`
+      }
     }
   },
   mounted() {
@@ -225,6 +227,8 @@ export default {
 .videoLoop
 {
   transition-duration: 250ms;
+}
+@media screen and (max-width: 800px) {
 }
 </style>
 
