@@ -1,10 +1,6 @@
 <template>
   <div id="project">
-    <div id="centerBubbles">
-      <div id="bubble1">
-      </div>
-      <div id="bubble2">
-      </div>
+    <div id="backgroundColor">
     </div>
     <div id="deck">
       <div v-for="project of projectList" :key="project.title" class="cardBody" :data-color="project.color" :style="'background-color: ' + project.color">
@@ -46,7 +42,8 @@ export default {
   name: 'Project',
   data(){
     return {
-      projectList: require('../assets/data.json')
+      projectList: require('../assets/data.json'),
+      topCard: null
     }
   },
   methods: {
@@ -57,6 +54,7 @@ export default {
       let cardStack = document.getElementsByClassName('cardBody')
       let offset = window.innerWidth/250
       let stackIndex = cardStack.length
+      this.topCard = cardStack[0]
 
       for (let i = 0; i < cardStack.length; i++ ){
         cardStack[i].style.marginLeft = `${i * offset}px`
@@ -79,9 +77,13 @@ export default {
     // Cards event
     let cardStack = document.getElementsByClassName('cardBody')
     for (let card of cardStack){
+      if (card.dataset.z == cardStack.length){        
+        updateBackground(card.dataset.color)
+      }
       card.dataset.isHold = "0"
 
-      card.addEventListener('mousedown', event => {        
+      card.addEventListener('mousedown', event => {    
+        cleanCardEffects()    
         this.idHandOpen = false
         card.dataset.isHold = "1"
         card.style.zIndex = cardStack.length + 1
@@ -128,46 +130,48 @@ export default {
             card.style.opacity = "0.9"
           }
         }  
-        else if(card.dataset.z == cardStack.length){
-          let rect = card.getBoundingClientRect()
-          let x = (event.offsetX - (rect.width/2)) / ((rect.width/2) / 7.5)
-          let y = (event.offsetY - (rect.height/2)) / ((rect.height/2) / 7.5)
-
-          card.style.transform = `perspective(300px) rotateX(${-y}deg) rotateY(${x}deg)`
-
-          x *= 3
-          y *= 3
-
-          card.children[0].style.transform = `translate(${x}px, ${y}px)`
-          card.children[0].style.textShadow = `${-x}px ${-y}px 7px #1a1a1a`
-
-          card.children[1].style.transform = `translate(${x}px, ${y}px)`
-          card.children[1].style.boxShadow = `${-x}px ${-y}px 7px rgb(38, 38, 38, 0.5)`
-
-          card.children[2].children[0].style.textShadow = `${-x}px ${-y}px 7px #1a1a1a`
-        }    
-        else{          
-          cleanCardEffects(card)
-        }  
       })
     }
+
+    let project = document.getElementById('project')
+    project.addEventListener('mousemove', event => {
+      if (this.topCard.dataset.isHold == "0"){
+        let rect = project.getBoundingClientRect()
+        let x = (event.clientX - (rect.width/2)) / ((rect.width/2) / 7.5)
+        let y = (event.clientY - (rect.height/2)) / ((rect.height/2) / 7.5)
+
+        this.topCard.style.transform = `perspective(300px) rotateX(${-y}deg) rotateY(${x}deg)`
+
+        x *= 3
+        y *= 3
+
+        this.topCard.children[0].style.transform = `translate(${x}px, ${y}px)`
+        this.topCard.children[0].style.textShadow = `${-x}px ${-y}px 7px #1a1a1a`
+
+        this.topCard.children[1].style.transform = `translate(${x}px, ${y}px)`
+        this.topCard.children[1].style.boxShadow = `${-x}px ${-y}px 7px rgb(38, 38, 38, 0.5)`
+
+        this.topCard.children[2].children[0].style.textShadow = `${-x}px ${-y}px 7px #1a1a1a`
+      }
+    })
       
     // Clean Card Effects
-    function cleanCardEffects(card){
-      card.style.transform = ""
+    let local = this
+    function cleanCardEffects(){
+      local.topCard.style.transform = ""
 
-      card.children[0].style.transform = ""
-      card.children[0].style.textShadow = ""
-      card.children[1].style.transform = ""
-      card.children[1].style.boxShadow =  ""
+      local.topCard.children[0].style.transform = ""
+      local.topCard.children[0].style.textShadow = ""
+      local.topCard.children[1].style.transform = ""
+      local.topCard.children[1].style.boxShadow =  ""
 
-      card.children[2].children[0].style.textShadow = ""
+      local.topCard.children[2].children[0].style.textShadow = ""
     }
 
     // Card Droped
     let cardCount = cardStack.length
     function cardDroped(movedCard){
-      cleanCardEffects(movedCard)
+      cleanCardEffects()
 
       for (let child of movedCard.children){
         child.style.transform = ""
@@ -191,7 +195,8 @@ export default {
 
         let movedIndex = parseInt(movedCard.dataset.z)        
         if(isDragIn){          
-          updateBubbles(movedCard.dataset.color)
+          updateBackground(movedCard.dataset.color)
+          local.topCard = movedCard
           
           // Decrease other cards
           for (let card of cardStack){
@@ -216,7 +221,8 @@ export default {
               cardIndex += 1
 
               if (cardIndex == cardCount){
-                updateBubbles(card.dataset.color)
+                updateBackground(card.dataset.color)
+                local.topCard = card
               }
               updateCardPosition(card, cardIndex)
             }
@@ -236,31 +242,15 @@ export default {
       card.style.marginTop = `${(cardCount - cardIndex) * (offset/2)}px`
     }
 
-    let centerBubbles = document.getElementById('centerBubbles')
-    
-    centerBubbles.children[0].style.animation = `${this.$style['rotate']} 15s infinite linear`
-    centerBubbles.children[1].style.animation = `${this.$style['rotate']} 10s infinite linear`
 
+    function updateBackground(color){
+      let backgroundColor = document.getElementById('backgroundColor')
+      backgroundColor.style.clipPath = "polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)"
 
-    function updateBubbles(color){
-      let bubbles = [document.getElementById('bubble1'), document.getElementById('bubble2')]
-      
-      for (let bubble of bubbles){        
-        bubble.style.height = "0vw"
-        bubble.style.width = "0vw"
-
-        setTimeout(() => {
-          bubble.style.backgroundColor = color
-
-          let size = dice(10, 30)
-          bubble.style.height = `${size}vh`
-          bubble.style.width = `${size}vh`
-        }, 500)
-      }
-    }
-    
-    function dice(min, max){
-        return Math.random() * (max - min) + min
+      setTimeout(() => {
+        backgroundColor.style.backgroundColor = color
+        backgroundColor.style.clipPath = "polygon(0 73%, 100% 47%, 100% 100%, 0% 100%)"
+      }, 500)
     }
   }
 }
@@ -400,57 +390,13 @@ export default {
 {
   margin: 5%; 
 }
-/* Bubbles */
-#centerBubbles
+#backgroundColor
 {
   position: absolute;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-
-  height: 100%;
-  width: 100%;
-  opacity: 0.8;
-}
-#bubble1
-{
-  position: relative;
-  height: 20vh;
-  width: 20vh;
-  background-color: #262626;
-
-  margin-left: -250%;
-  border-radius: 50%;
-  transform-origin: 300% 50%;
-
-  grid-column: 1;
-  grid-row: 1;
+  height: 100vh;
+  width: 100vw;
   transition-duration: 500ms;
-}
-#bubble2
-{
-  position: relative;
-  height: 20vh;
-  width: 20vh;
-  background-color: #262626; 
-
-  margin-left: 250%;
-  border-radius: 50%;
-  transform-origin: -200% 50%;
-  
-  grid-column: 1;
-  grid-row: 1;
-  transition-duration: 500ms;
-}
-</style>
-
-<style module>
-@keyframes rotate {
-  0%{
-    transform: rotate(0deg);
-  }
-  100%{
-    transform: rotate(360deg);
-  }
+  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+  opacity: 0.5;
 }
 </style>
