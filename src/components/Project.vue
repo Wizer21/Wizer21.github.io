@@ -21,18 +21,18 @@
           </p>
           <div class="buttonsHolder">
             <a :href="project.git_link" target="_blank">
-              <div class="iconHolder iconAnimate" data-name="GitHub">
+              <div class="iconHolder" data-name="GitHub">
                 <img :src="require('../assets/icons/github.svg')" @load="newLoad">
               </div>
             </a>
             <a :href="project.page_link" target="_blank">
-              <div class="iconHolder iconAnimate" data-name="Visit">
+              <div class="iconHolder" data-name="Visit">
                 <img :src="require('../assets/arrow.png')" @load="newLoad">
               </div>
             </a>
           </div>
           <div class="technologies">
-            <div v-for="techno of project.tech" :key="techno" :data-name="techno" class="technoHolder iconAnimate">
+            <div v-for="techno of project.tech" :key="techno" :data-name="techno" class="technoHolder">
               <img :src="require('../assets/icons/' + techno + '.svg')" @load="newLoad">
             </div>
           </div>
@@ -87,55 +87,90 @@ export default {
       }
       card.dataset.isHold = "0"
 
-      card.addEventListener('mousedown', event => {    
-        cleanCardEffects()    
-        this.idHandOpen = false
-        card.dataset.isHold = "1"
-        card.style.zIndex = cardStack.length + 1
-        card.style.transform = "scale(1.07)"
-
-        let rect = card.getBoundingClientRect()
-        card.dataset.clickX = event.offsetX - (rect.width/2)
-        card.dataset.clickY = event.offsetY - (rect.height/2)
+      // FROM MOUSE
+      card.addEventListener('mousedown', event => {   
+        dragStart(card, event, true) 
       })
       card.addEventListener('mouseup', () => {
-        cardDroped(card)
+        cardDroped(card, true)
       })
       card.addEventListener('mouseleave', () => {
-        cardDroped(card)
+        cardDroped(card, true)
       })
       card.addEventListener('mousemove', event => {
+        drag(card, event, true)
+      })      
 
-        // Drag Card
-        if (card.dataset.isHold == "1"){
-          let rect = card.getBoundingClientRect()
+      // FROM TOUCH
+      card.addEventListener('touchstart', event => {
+        dragStart(card, event, false)
+      })     
+      card.addEventListener('touchend', () => {
+        cardDroped(card, false)
+      })     
+      card.addEventListener('touchmove', event => {
+        drag(card, event, false)
+      })      
+    }  
+    
+    // Start Drag    
+    function dragStart(card, event, fromMouse){
+      isDragIn = true
+      cleanCardEffects()    
+      card.dataset.isHold = "1"
+      card.style.zIndex = cardStack.length + 1
+      card.style.transform = "scale(1.07)"
+
+      let rect = card.getBoundingClientRect()
+      if (fromMouse){
+        card.dataset.clickX = event.offsetX - (rect.width/2)
+        card.dataset.clickY = event.offsetY - (rect.height/2)
+      }
+      else 
+      {
+        card.dataset.clickX = event.changedTouches[0].clientX - (rect.height/2)
+        card.dataset.clickY = rect.height/2
+      }
+    }
+    
+    // Drag Card
+    function drag(card, event, fromMouse){
+      if (card.dataset.isHold == "1"){
+        let rect = card.getBoundingClientRect()
+        if (fromMouse){
           let x = card.offsetLeft + (event.offsetX - (rect.width/2)) - parseInt(card.dataset.clickX)
           let y = card.offsetTop + (event.offsetY - (rect.height/2)) - parseInt(card.dataset.clickY)
 
-          card.style.left = `${x}px`
           card.style.top = `${y}px`
+          card.style.left = `${x}px`
+        }
+        else{
+          let x = (event.changedTouches[0].clientX - (rect.width/2)) - parseInt(card.dataset.clickX)
 
-          // Is the card on the deck
-          let deckRect = document.getElementById('deck').getBoundingClientRect()
-          let globalX = rect.left + (parseInt(card.dataset.clickX) + (rect.width/2))
-          let globalY = rect.top + (parseInt(card.dataset.clickY) + (rect.height/2))
-          if ( 
-            deckRect.left < globalX &&
-            globalX < deckRect.right &&
-            deckRect.top < globalY &&
-            globalY < deckRect.bottom
-          ){
-            isDragIn = true
-            card.style.transform = "scale(1.07)"
-            card.style.opacity = "1"
-          }
-          else{
-            isDragIn = false
-            card.style.transform = "scale(0.9)"
-            card.style.opacity = "0.9"
-          }
-        }  
-      })
+          card.style.left = `${x}px`
+        }
+
+        // Is the card on the deck
+        let deckRect = document.getElementById('deck').getBoundingClientRect()
+        let globalX = rect.left + (parseInt(card.dataset.clickX) + (rect.width/2))
+        let globalY = rect.top + (parseInt(card.dataset.clickY) + (rect.height/2))
+
+        if ( 
+          deckRect.left < globalX &&
+          globalX < deckRect.right &&
+          deckRect.top < globalY &&
+          globalY < deckRect.bottom
+        ){
+          isDragIn = true
+          card.style.transform = "scale(1.07)"
+          card.style.opacity = "1"
+        }
+        else{
+          isDragIn = false
+          card.style.transform = "scale(0.9)"
+          card.style.opacity = "0.9"
+        }
+      }
     }
 
     let project = document.getElementById('project')
@@ -179,7 +214,7 @@ export default {
 
     // Card Droped
     let cardCount = cardStack.length
-    function cardDroped(movedCard){
+    function cardDroped(movedCard, fromMouse){
       cleanCardEffects()
 
       for (let child of movedCard.children){
@@ -198,6 +233,13 @@ export default {
         movedCard.dataset.isHold = "0"
         movedCard.style.transform = ""
         movedCard.style.opacity = "1"
+
+        if (fromMouse){
+          movedCard.style.transform = ""
+        }
+        else{
+          movedCard.style.transform = "scale(1)"
+        }
 
         movedCard.style.left = `${deck.offsetLeft}px`
         movedCard.style.top = `${deck.offsetTop}px`
@@ -236,7 +278,6 @@ export default {
               updateCardPosition(card, cardIndex)
             }
           }
-
           updateCardPosition(movedCard, 1)
         }        
       }
@@ -262,12 +303,15 @@ export default {
       }, 500)
     }
 
-    let icons = document.getElementsByClassName('iconAnimate')
+    let icons = document.getElementsByClassName('iconHolder')
     let indicator = document.getElementById('indicator')
     for (let icon of icons){
       icon.addEventListener('mouseenter', () => {
-        console.log(icon);
         indicator.textContent = icon.dataset.name
+        mouseIndicator.style.opacity = 1
+      })
+      icon.addEventListener('mouseleave', () => {
+        mouseIndicator.style.opacity = 0
       })
     }
   }
@@ -277,7 +321,6 @@ export default {
 <style scoped>
 #project
 {
-  background-color: #1a1a1a;
   height: 100vh;
   width: 100vw;
   transition-duration: 500ms;
@@ -315,6 +358,7 @@ export default {
 }
 .cardBody *
 {
+  pointer-events: none;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -332,7 +376,7 @@ export default {
   margin: 0;
   margin-left: 2%;
   height: 8%;
-  font-size: 2em;
+  font-size: 2.2em;
   transition-duration: 500ms;
   transition-timing-function: ease-out;
 }
@@ -360,9 +404,10 @@ export default {
 }
 .bottom p
 {  
-  font-size: 1.5em;
-  width: 80%;
-  height: 70%;
+  padding: 5%;
+  font-size: 1.7em;
+  width: 70%;
+  height: 50%;
   transition-duration: 500ms;
   transition-timing-function: ease-out;
 }
@@ -373,9 +418,9 @@ export default {
 }
 .iconHolder
 {
+  pointer-events: all;
   padding: 10%;
   transition-duration: 500ms;
-  cursor: pointer;
 }
 .iconHolder:hover
 {
@@ -423,10 +468,14 @@ export default {
 #mouseIndicator
 {
   position: absolute;
-  border: 1px solid white;
   z-index: 100;
   padding: 10px;
   pointer-events: none;
+  font-size: 1.5em;
+  background-color: rgb(26, 26, 26, 0.5);
+  
+  margin-top: -2.8em;
+  opacity: 0;
   
   transition-duration: 250ms;
   transition-timing-function: ease-out;

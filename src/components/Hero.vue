@@ -110,7 +110,6 @@ export default {
     let videoLoop = document.getElementsByClassName('videoLoop')
     for (let video of videoLoop){
       video.addEventListener('ended', () => {
-        console.log("end");
         video.style.opacity = 0
         video.style.filter = "blur(10px)"
 
@@ -129,7 +128,6 @@ export default {
 <style scoped>
 #hero
 {
-  background-color: #1a1a1a;
   height: 100vh;
   width: 100vw;
 
@@ -143,7 +141,6 @@ export default {
   z-index: 3;
   margin-left: -20%;
   pointer-events: none;
-
 }
 #textBackground
 {
