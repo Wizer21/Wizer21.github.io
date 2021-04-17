@@ -100,7 +100,7 @@ export default {
             card.style.transitionDelay = ""
           }   
         }, 1000) 
-      }, 1000)
+      }, 1500)
     }
   },
   mounted(){
@@ -108,11 +108,13 @@ export default {
     window.addEventListener('resize', () => {
       this.setCardOffset()
     })
+    let opened = false
     window.addEventListener('scroll', () => {
       let rect = project.getBoundingClientRect()
-      console.log(rect.top);
-      if (rect.top <= 0)
-      this.inView()
+      if (rect.top <= rect.height/2 && !opened){
+        this.inView()
+        opened = true
+      }
     })
     this.setUpIndex()
     
@@ -345,11 +347,11 @@ export default {
       
       if (lastColor != color){
         let backgroundColor = document.getElementById('backgroundColor')
-        backgroundColor.style.clipPath = "polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)"
+        backgroundColor.style.clipPath = "polygon(0 96%, 100% 100%, 100% 100%, 0 96%)"
 
         setTimeout(() => {
           backgroundColor.style.backgroundColor = color
-          backgroundColor.style.clipPath = "polygon(0 73%, 100% 47%, 100% 100%, 0% 100%)"
+          backgroundColor.style.clipPath = "polygon(0 73%, 100% 47%, 100% 100%, 0 96%)"
           lastColor = color
         }, 500)
       }
@@ -392,8 +394,8 @@ export default {
 
   margin-top: 100%;
   opacity: 0;
-  transition-duration: 1000ms;
-  transition-timing-function: cubic-bezier(0.42, 0, 0.25, 1.38);
+  transition-duration: 1500ms;
+  transition-timing-function: cubic-bezier(0.42, 0, 0, 1.46);
 }
 /* Card */
 .cardBody
@@ -530,8 +532,9 @@ export default {
   position: absolute;
   height: 100vh;
   width: 100vw;
+  margin-top: 25%;
   transition-duration: 500ms;
-  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+  clip-path: polygon(0 96%, 100% 100%, 100% 100%, 0 96%);
   opacity: 0.7;
 }
 #mouseIndicator

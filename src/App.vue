@@ -1,7 +1,17 @@
 <template>
   <div id="cursor"></div>
+  <div id="loadingScreen">
+    <div id="circleBack">
+    </div>
+    <div id="circleFront">
+    </div>
+    <p id="loadStatus">
+      0%
+    </p>
+  </div>
   <Hero ref="heroref"/>
   <Project @newLoad="newLoad"/>
+  <Footer />
   <svg fill="none" id="svgHide">
     <clipPath id="cursorClip" clipPathUnits="objectBoundingBox">
       <path id="cursorPath" d="M 0.0789 0.5026 C 0.0789 0.1789 0.377 0.0767 0.5304 0.0681 C 0.7604 0.0426 0.9222 0.1874 0.9222 0.4259 C 0.9392 0.6644 0.7518 0.8774 0.5304 0.9115 C 0.2918 0.9455 0.0874 0.7496 0.0789 0.5026" />
@@ -12,29 +22,44 @@
 <script>
 import Project from './components/Project.vue'
 import Hero from './components/Hero.vue'
+import Footer from './components/Footer.vue'
 import Cursor from './js/cursor.js'
 
 export default {
   name: 'App',
-  components: { Project, Hero },
+  components: { Project, Hero, Footer },
   data(){
     return {
       loadCount: 0,
-      cursor: null
+      cursor: null,
+      totalCount: 66
     }
   },
   methods: {
     newLoad(){
+      let percent = 100 / this.totalCount
       this.loadCount ++ 
-      if(this.loadCount == 66){
+      
+      // Update Displayed loader state
+      document.getElementById('loadStatus').textContent = `${Math.round(this.loadCount * percent)}%`
+      document.getElementById('circleFront').style.clipPath = `circle(${(this.loadCount * (percent/2))}% at 50% 50%)`
 
-        this.$refs.heroref.loaded()
+      let loadingScreen = document.getElementById('loadingScreen')
 
-        this.cursor = new Cursor(document.getElementById('cursor'))        
+      if(this.loadCount == this.totalCount){
+        setTimeout(() => {
+          loadingScreen.style.clipPath = "polygon(0 0, 0 0, 0 100%, 0 100%)"
+
+          setTimeout(() => {
+            this.$refs.heroref.loaded()
+            loadingScreen.style.display = "none"
+          }, 500)   
+        }, 500)     
       }
     }
   },
   mounted(){
+    this.cursor = new Cursor(document.getElementById('cursor'))  
     // Update Using touch Screen
     let cachedTouch = false
     window.addEventListener('mousemove', () => {
@@ -109,5 +134,51 @@ body
 a
 {
   cursor: none;
+}
+#loadingScreen
+{
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  z-index: 10;
+  transition-duration: 500ms;
+
+  background-color: rgb(219, 219, 211);
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+#loadingScreen *
+{
+  grid-column: 1;
+  grid-row: 1;
+} 
+#loadStatus
+{
+  color: #262626;
+  font-size: 10vw;
+  z-index: 3;
+  text-align: center;
+  font-family: 'Antonio', sans-serif;
+}
+#circleBack,
+#circleFront
+{
+  height: 40vw;
+  width: 40vw;
+  border-radius: 50%;
+}
+#circleBack
+{
+  background-color: #1a1a1a;
+}
+#circleFront
+{
+  background-color: rgb(219, 219, 211);
+  transition-duration: 500ms;
+  z-index: 2;
+  transform: scale(1.01);
 }
 </style>
