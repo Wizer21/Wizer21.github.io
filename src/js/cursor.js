@@ -47,7 +47,7 @@ export default class Cursor{
     }
   }
 
-  catchMouse(){    
+  catchMouse(){   
     this.usingMouse = true
     this.element.style.display = "block"
   }

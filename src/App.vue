@@ -2,7 +2,6 @@
   <div id="cursor"></div>
   <Hero ref="heroref"/>
   <Project @newLoad="newLoad"/>
-
   <svg fill="none" id="svgHide">
     <clipPath id="cursorClip" clipPathUnits="objectBoundingBox">
       <path id="cursorPath" d="M 0.0789 0.5026 C 0.0789 0.1789 0.377 0.0767 0.5304 0.0681 C 0.7604 0.0426 0.9222 0.1874 0.9222 0.4259 C 0.9392 0.6644 0.7518 0.8774 0.5304 0.9115 C 0.2918 0.9455 0.0874 0.7496 0.0789 0.5026" />
@@ -27,8 +26,7 @@ export default {
   methods: {
     newLoad(){
       this.loadCount ++ 
-      if(this.loadCount == 68){
-        console.log("LoadFinished", this.loadCount)
+      if(this.loadCount == 66){
 
         this.$refs.heroref.loaded()
         this.cursor = new Cursor(document.getElementById('cursor'))        

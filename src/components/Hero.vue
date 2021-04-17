@@ -10,9 +10,13 @@
         <source src="../assets/video/wheat.mp4" type="video/mp4">
       </video>
     </div>
-    <h1>
-      Simon
-    </h1>
+    <div id="titleHolder">
+      <template v-for="letter of 'Simon'" :key="letter">
+        <h1 class="titleLetter">
+          {{ letter }}
+        </h1>
+      </template>
+    </div>
     <div id="textBackground">
       <div id="creaText">
         <div class="textPart">
@@ -89,24 +93,43 @@ export default {
 
         element.style.transform = `translate(${baseOffsetX}px, ${baseOffsetY}px) scale(1.2)`
       }
+
+      // Title Animation      
+      let titleLetter = document.getElementsByClassName('titleLetter')
+      for (let letter of titleLetter){
+        letter.style.transform = "translateY(0%)"
+      }
+
+      setTimeout(() => {
+        // Wake Up Background Text      
+        let textPart = document.getElementsByClassName('textPart')
+        for (let text of textPart){
+          text.style.transform = "translateY(0%)"
+        }
+      }, 1000)
     }
   },
   mounted() {
     // Text Slide
     let textPart = document.getElementsByClassName('textPart')
-    textPart[0].style.animation = `${this.$style["slide"]} 20s infinite linear`
-    textPart[1].style.animation = `${this.$style["slide"]} 20s infinite linear 10s`
-    textPart[2].style.animation = `${this.$style["slide"]} 20s infinite linear reverse`
-    textPart[3].style.animation = `${this.$style["slide"]} 20s infinite linear reverse 10s`
+    textPart[0].style.animation = `${this.$style["slide"]} 30s infinite linear`
+    textPart[2].style.animation = `${this.$style["slide"]} 30s infinite linear reverse`
 
-    textPart[1].style.opacity = 0
-    textPart[3].style.opacity = 0
-    setTimeout(() => {      
-      textPart[1].style.opacity = 1
-      textPart[3].style.opacity = 1
-    }, 10000)
+    textPart[1].style.animation = `${this.$style["slideStart"]} 15s linear`
+    textPart[3].style.animation = `${this.$style["antiSlideStart"]} 15s linear`
+    setTimeout(() => {
+      textPart[1].style.animation = `${this.$style["slide"]} 30s infinite linear`
+      textPart[3].style.animation = `${this.$style["slide"]} 30s infinite linear reverse`
+    }, 15000)
 
+    // Morph Path
     document.getElementById('path').style.animation = `${this.$style["morph"]} 5s infinite`
+
+    // Setup TextPos
+    textPart[0].style.transform = "translateY(100%)"
+    textPart[1].style.transform = "translateY(100%)"
+    textPart[2].style.transform = "translateY(-100%)"
+    textPart[3].style.transform = "translateY(-100%)"
 
     // Video Infinite loop
     let videoLoop = document.getElementsByClassName('videoLoop')
@@ -123,6 +146,12 @@ export default {
         }, 250)
       })
     }
+
+    // Setup Title Pos
+    let titleLetter = document.getElementsByClassName('titleLetter')
+    for (let i = 0; i < titleLetter.length; i++){
+      titleLetter[i].style.transitionDelay = `${500 - (i * 100)}ms`
+    }
   }
 }
 </script>
@@ -137,13 +166,6 @@ export default {
   align-items: center;
   justify-content: center;
 }
-#hero h1
-{
-  font-size: 25vw;
-  z-index: 3;
-  margin-left: -20%;
-  pointer-events: none;
-}
 #textBackground
 {
   position: absolute;
@@ -156,6 +178,27 @@ export default {
   pointer-events: all;
 
   transition-duration: 1000ms;
+  transition-timing-function: ease-out;
+}
+#titleHolder
+{
+  display: flex;
+  flex-direction: row;
+  margin-left: -20%;
+
+  overflow: hidden;
+}
+.titleLetter
+{  
+  font-size: 25vw;
+  z-index: 3;
+  pointer-events: none;
+  margin: 0;
+  line-height: 90%;
+
+  transition-duration: 1000ms;
+  transform: translateY(-100%);
+
 }
 #frontText,
 #creaText
@@ -164,12 +207,16 @@ export default {
   display: grid;
   pointer-events: none;
   transition-duration: 500ms;
+
+  overflow: hidden;
 }
 .textPart
 {
   white-space: nowrap;
   font-size: 37vh;
   font-family: 'Antonio', sans-serif;
+  transition-duration: 1000ms;
+  transition-timing-function: cubic-bezier(0.42, 0, 0.25, 1.38);
 
   grid-column: 1;
   grid-row: 1;  
@@ -250,6 +297,22 @@ export default {
   }
   100%{
     margin-left: 100%;
+  }  
+}
+@keyframes slideStart {
+  0%{
+    margin-left: 0%;
+  }
+  100%{
+    margin-left: 100%;
+  }  
+}
+@keyframes antiSlideStart {
+  0%{
+    margin-left: 0%;
+  }
+  100%{
+    margin-left: -100%;
   }  
 }
 </style>

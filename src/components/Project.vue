@@ -25,7 +25,7 @@
                 <img :src="require('../assets/icons/github.svg')" @load="newLoad">
               </div>
             </a>
-            <a :href="project.page_link" target="_blank">
+            <a :href="project.page_link" target="_blank" v-if="project.page_link">
               <div class="iconHolder" data-name="Visit">
                 <img :src="require('../assets/arrow.png')" @load="newLoad">
               </div>
