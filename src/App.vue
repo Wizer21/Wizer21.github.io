@@ -29,6 +29,7 @@ export default {
       if(this.loadCount == 66){
 
         this.$refs.heroref.loaded()
+
         this.cursor = new Cursor(document.getElementById('cursor'))        
       }
     }
@@ -52,9 +53,12 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100&family=Playfair+Display&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100&family=Playfair+Display&family=Work+Sans:wght@100&display=swap');
+@font-face {
+  font-family: 'aqua';
+  src: url('./assets/font/aqua.ttf');
+}
 
 ::-moz-selection {
   color: rgb(44, 44, 44);
@@ -68,7 +72,7 @@ body
 {
   margin: 0px;
   color: rgb(219, 219, 211);
-  font-family: 'Playfair Display', serif;
+  font-family: 'aqua';
 }
 #app
 {

@@ -55,6 +55,20 @@ export default {
     newLoad(){
       this.$emit('newLoad')
     },
+    setUpIndex(){
+      let cardStack = document.getElementsByClassName('cardBody')
+      let stackIndex = cardStack.length
+
+      for (let i = 0; i < cardStack.length; i++ ){
+        cardStack[i].style.zIndex = stackIndex
+        cardStack[i].style.transitionDelay = `${i*50}ms`
+
+        cardStack[i].dataset.z = stackIndex
+
+        stackIndex--
+      }    
+
+    },
     setCardOffset(){
       let cardStack = document.getElementsByClassName('cardBody')
       let offset = window.innerWidth/250
@@ -71,12 +85,36 @@ export default {
         stackIndex--
       }    
     },
+    inView(){
+      let deck = document.getElementById('deck')
+      deck.style.marginTop = "0px"
+      deck.style.opacity = 1
+
+      setTimeout(() => {
+        this.setCardOffset()
+
+        setTimeout(() => {
+          let cardStack = document.getElementsByClassName('cardBody')
+
+          for (let card of cardStack){
+            card.style.transitionDelay = ""
+          }   
+        }, 1000) 
+      }, 1000)
+    }
   },
   mounted(){
+    let project = document.getElementById('project')
     window.addEventListener('resize', () => {
       this.setCardOffset()
     })
-    this.setCardOffset()
+    window.addEventListener('scroll', () => {
+      let rect = project.getBoundingClientRect()
+      console.log(rect.top);
+      if (rect.top <= 0)
+      this.inView()
+    })
+    this.setUpIndex()
     
     let isDragIn = true
     // Cards event
@@ -173,7 +211,6 @@ export default {
       }
     }
 
-    let project = document.getElementById('project')
     let mouseIndicator = document.getElementById('mouseIndicator')
     project.addEventListener('mousemove', event => {
       if (this.topCard.dataset.isHold == "0"){
@@ -184,7 +221,7 @@ export default {
         this.topCard.style.transform = `perspective(300px) rotateX(${-y}deg) rotateY(${x}deg)`
 
         mouseIndicator.style.left = `${event.clientX}px`
-        mouseIndicator.style.top = `${event.clientY + project.offsetTop}px`
+        mouseIndicator.style.top = `${event.clientY + (project.offsetTop - rect.top)}px`
 
         x *= 2
         y *= 2
@@ -352,6 +389,11 @@ export default {
   display: grid;
   align-items: center;
   justify-content: center;
+
+  margin-top: 100%;
+  opacity: 0;
+  transition-duration: 1000ms;
+  transition-timing-function: cubic-bezier(0.42, 0, 0.25, 1.38);
 }
 /* Card */
 .cardBody
@@ -364,12 +406,9 @@ export default {
   box-shadow: 0 0 5px #1a1a1a;
   font-family: 'Antonio', sans-serif;
 
-  transition-duration: 500ms;
-  transition-timing-function: ease-out;
-
   grid-column: 1;
   grid-row: 1;
-  transition: opacity 300ms, transform 300ms, margin 300ms, z-index 500ms;
+  transition: opacity 300ms, transform 300ms, margin 500ms, z-index 500ms;
   transition-timing-function: ease-out;
 }
 .cardBody *

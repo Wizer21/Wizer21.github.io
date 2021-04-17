@@ -20,18 +20,18 @@
     <div id="textBackground">
       <div id="creaText">
         <div class="textPart">
-          Creative  Creative  Creative
+          Creative  Creative  Creative&nbsp;
         </div>
         <div class="textPart"> 
-          Creative  Creative  Creative 
+          Creative  Creative  Creative&nbsp;
         </div>
       </div>
       <div id="frontText">
         <div class="textPart">
-          FrontEnd  FrontEnd  FrontEnd
+          FrontEnd  FrontEnd  FrontEnd&nbsp;
         </div>
         <div class="textPart">
-          FrontEnd  FrontEnd  FrontEnd
+          FrontEnd  FrontEnd  FrontEnd&nbsp;
         </div>
       </div>
     </div>
@@ -126,10 +126,10 @@ export default {
     document.getElementById('path').style.animation = `${this.$style["morph"]} 5s infinite`
 
     // Setup TextPos
-    textPart[0].style.transform = "translateY(100%)"
-    textPart[1].style.transform = "translateY(100%)"
-    textPart[2].style.transform = "translateY(-100%)"
-    textPart[3].style.transform = "translateY(-100%)"
+    textPart[0].style.transform = "translateY(-100%)"
+    textPart[1].style.transform = "translateY(-100%)"
+    textPart[2].style.transform = "translateY(100%)"
+    textPart[3].style.transform = "translateY(100%)"
 
     // Video Infinite loop
     let videoLoop = document.getElementsByClassName('videoLoop')
@@ -194,10 +194,9 @@ export default {
   z-index: 3;
   pointer-events: none;
   margin: 0;
-  line-height: 90%;
 
   transition-duration: 1000ms;
-  transform: translateY(-100%);
+  transform: translateY(100%);
 
 }
 #frontText,
