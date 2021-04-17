@@ -2,6 +2,11 @@
   <div id="project">
     <div id="backgroundColor">
     </div>
+    <div id="mouseIndicator">
+      <p id="indicator">
+        Indicator
+      </p>
+    </div>
     <div id="deck">
       <div v-for="project of projectList" :key="project.title" class="cardBody" :data-color="project.color" :style="'background-color: ' + project.color">
         <p>
@@ -16,18 +21,18 @@
           </p>
           <div class="buttonsHolder">
             <a :href="project.git_link" target="_blank">
-              <div class="iconHolder">
+              <div class="iconHolder iconAnimate" data-name="GitHub">
                 <img :src="require('../assets/icons/github.svg')" @load="newLoad">
               </div>
             </a>
             <a :href="project.page_link" target="_blank">
-              <div class="iconHolder">
+              <div class="iconHolder iconAnimate" data-name="Visit">
                 <img :src="require('../assets/arrow.png')" @load="newLoad">
               </div>
             </a>
           </div>
           <div class="technologies">
-            <div v-for="techno of project.tech" :key="techno" class="technoHolder">
+            <div v-for="techno of project.tech" :key="techno" :data-name="techno" class="technoHolder iconAnimate">
               <img :src="require('../assets/icons/' + techno + '.svg')" @load="newLoad">
             </div>
           </div>
@@ -134,6 +139,7 @@ export default {
     }
 
     let project = document.getElementById('project')
+    let mouseIndicator = document.getElementById('mouseIndicator')
     project.addEventListener('mousemove', event => {
       if (this.topCard.dataset.isHold == "0"){
         let rect = project.getBoundingClientRect()
@@ -141,6 +147,9 @@ export default {
         let y = (event.clientY - (rect.height/2)) / ((rect.height/2) / 7.5)
 
         this.topCard.style.transform = `perspective(300px) rotateX(${-y}deg) rotateY(${x}deg)`
+
+        mouseIndicator.style.left = `${event.clientX}px`
+        mouseIndicator.style.top = `${event.clientY + project.offsetTop}px`
 
         x *= 3
         y *= 3
@@ -242,7 +251,7 @@ export default {
       card.style.marginTop = `${(cardCount - cardIndex) * (offset/2)}px`
     }
 
-
+    // Background animation
     function updateBackground(color){
       let backgroundColor = document.getElementById('backgroundColor')
       backgroundColor.style.clipPath = "polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)"
@@ -251,6 +260,15 @@ export default {
         backgroundColor.style.backgroundColor = color
         backgroundColor.style.clipPath = "polygon(0 73%, 100% 47%, 100% 100%, 0% 100%)"
       }, 500)
+    }
+
+    let icons = document.getElementsByClassName('iconAnimate')
+    let indicator = document.getElementById('indicator')
+    for (let icon of icons){
+      icon.addEventListener('mouseenter', () => {
+        console.log(icon);
+        indicator.textContent = icon.dataset.name
+      })
     }
   }
 }
@@ -288,6 +306,7 @@ export default {
   background-color: hsl(0, 0%, 15%);
   border-radius: 20px;
   box-shadow: 0 0 5px #1a1a1a;
+  font-family: 'Antonio', sans-serif;
 
   grid-column: 1;
   grid-row: 1;
@@ -296,7 +315,6 @@ export default {
 }
 .cardBody *
 {
-  pointer-events: none;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -311,8 +329,9 @@ export default {
 /* Title */
 .cardBody p
 {  
-  height: 5.5%;
-  margin: 2%;
+  margin: 0;
+  margin-left: 2%;
+  height: 8%;
   font-size: 2em;
   transition-duration: 500ms;
   transition-timing-function: ease-out;
@@ -337,13 +356,13 @@ export default {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  padding: 3%;
-  height: 40%;
+  height: 43%;
 }
 .bottom p
 {  
-  font-size: 1em;
+  font-size: 1.5em;
   width: 80%;
+  height: 70%;
   transition-duration: 500ms;
   transition-timing-function: ease-out;
 }
@@ -356,7 +375,6 @@ export default {
 {
   padding: 10%;
   transition-duration: 500ms;
-  pointer-events: all;
   cursor: pointer;
 }
 .iconHolder:hover
@@ -372,18 +390,21 @@ export default {
 }
 .technologies
 {
-  height: 70%;
+  height: 30%;
   width: 100%;
+  background-color: rgb(26, 26, 26, 0.5);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
 }
 .technoHolder
 {
-  height: 30%;
+  height: 60%;
   width: 12%;
-  margin: 0 1.5%;
+  margin: 0 2.5%;
 }
 /* Deploy */
 #buttonDeploy
@@ -397,6 +418,22 @@ export default {
   width: 100vw;
   transition-duration: 500ms;
   clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
-  opacity: 0.5;
+  opacity: 0.7;
+}
+#mouseIndicator
+{
+  position: absolute;
+  border: 1px solid white;
+  z-index: 100;
+  padding: 10px;
+  pointer-events: none;
+  
+  transition-duration: 250ms;
+  transition-timing-function: ease-out;
+}
+#indicator
+{
+  font-size: 1.5em;
+  margin: 0;
 }
 </style>

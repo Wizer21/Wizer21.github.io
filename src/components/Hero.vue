@@ -1,12 +1,12 @@
 <template>
   <div id="hero">  
     <div id="videoHolder1">
-      <video autoplay muted loop>
+      <video autoplay muted class="videoLoop">
         <source src="../assets/video/snow.mp4" type="video/mp4">
       </video>
     </div>
     <div id="videoHolder2">
-      <video autoplay muted loop>
+      <video autoplay muted class="videoLoop">
         <source src="../assets/video/wheat.mp4" type="video/mp4">
       </video>
     </div>
@@ -105,6 +105,23 @@ export default {
     }, 10000)
 
     document.getElementById('path').style.animation = `${this.$style["morph"]} 5s infinite`
+
+    // Video Infinite loop
+    let videoLoop = document.getElementsByClassName('videoLoop')
+    for (let video of videoLoop){
+      video.addEventListener('ended', () => {
+        console.log("end");
+        video.style.opacity = 0
+        video.style.filter = "blur(10px)"
+
+        setTimeout(() => {
+          video.currentTime = 0
+          video.play()
+          video.style.opacity = 1
+          video.style.filter = ""
+        }, 250)
+      })
+    }
   }
 }
 </script>
@@ -152,7 +169,8 @@ export default {
 .textPart
 {
   white-space: nowrap;
-  font-size: 44vh;
+  font-size: 37vh;
+  font-family: 'Antonio', sans-serif;
 
   grid-column: 1;
   grid-row: 1;  
@@ -206,6 +224,10 @@ export default {
   height: 100%;
   width: 100%;
   transition-duration: 500ms;
+}
+.videoLoop
+{
+  transition-duration: 250ms;
 }
 </style>
 

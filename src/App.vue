@@ -28,7 +28,9 @@ export default {
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100&family=Playfair+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100&family=Playfair+Display&family=Work+Sans:wght@100&display=swap');
   ::-moz-selection {
     color: rgb(44, 44, 44);
     background: rgb(236, 236, 236);

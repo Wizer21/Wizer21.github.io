@@ -13,12 +13,12 @@
     "description": "Gallery presentation based on the Deviant Art's Api.",
     "git_link": "https://github.com/Wizer21/DeviantDisplay",
     "page_link": "https://deviant-art-gallery.herokuapp.com/",
-    "color": "#e91e63",
+    "color": "#00d38f",
     "image": "deviant.jpg",
     "tech": ["javascript", "html", "css", "vuejs", "threejs"]
   },  
   {
-    "title": "Portfolio",
+    "title": "Second Portfolio",
     "description": "Web portfolio, resuming all the projects I've realized.",
     "git_link": "https://github.com/Wizer21/Wizer21.github.io",
     "page_link": "https://wizer21.github.io/",
@@ -40,7 +40,7 @@
     "description": "Showcase page of the music band Reliance",
     "git_link": "https://github.com/Wizer21/Shop",
     "page_link": "https://relianceband.herokuapp.com/",
-    "color": "#3f51b5",
+    "color": "#a3956d",
     "image": "reliance.jpg",
     "tech": ["javascript", "html", "css", "vuejs", "threejs", "locomotive"]
   }, 
@@ -57,7 +57,7 @@
     "description": "Web portfolio, resuming all the projects I've realized.",
     "git_link": "https://github.com/Wizer21/Portfolio1",
     "page_link": "https://portfoliomonstera.herokuapp.com/index.html",
-    "color": "#03a9f4",
+    "color": "#153805",
     "image": "portfolio.jpg",
     "tech": ["javascript", "html", "css", "threejs", "matterjs"]
   }, 
