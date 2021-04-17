@@ -186,8 +186,8 @@ export default {
         mouseIndicator.style.left = `${event.clientX}px`
         mouseIndicator.style.top = `${event.clientY + project.offsetTop}px`
 
-        x *= 3
-        y *= 3
+        x *= 2
+        y *= 2
 
         this.topCard.children[0].style.transform = `translate(${x}px, ${y}px)`
         this.topCard.children[0].style.textShadow = `${-x}px ${-y}px 7px #1a1a1a`
@@ -196,6 +196,16 @@ export default {
         this.topCard.children[1].style.boxShadow = `${-x}px ${-y}px 7px rgb(38, 38, 38, 0.5)`
 
         this.topCard.children[2].children[0].style.textShadow = `${-x}px ${-y}px 7px #1a1a1a`
+        
+        let technologies = this.topCard.getElementsByClassName('technologies')[0]
+        technologies.style.transform = `translate(${x}px, ${y}px)`
+        technologies.style.boxShadow = `${-x}px ${-y}px 7px rgb(38, 38, 38, 0.3)`
+
+        let buttons = this.topCard.getElementsByClassName('iconHolder')
+        for (let button of buttons){
+          button.style.transform = `translate(${x}px, ${y}px)`
+          button.style.boxShadow = `${-x}px ${-y}px 7px rgb(38, 38, 38, 0.5)`
+        }
       }
     })
       
@@ -328,8 +338,6 @@ export default {
 {
   height: 100vh;
   width: 100vw;
-  transition-duration: 500ms;
-  transition-timing-function: ease-out;
 
   display: flex;
   align-items: center;
@@ -355,6 +363,9 @@ export default {
   border-radius: 20px;
   box-shadow: 0 0 5px #1a1a1a;
   font-family: 'Antonio', sans-serif;
+
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
 
   grid-column: 1;
   grid-row: 1;
@@ -418,18 +429,29 @@ export default {
 }
 .buttonsHolder
 {
-  height: 15%;
+  height: 60%;
   width: 15%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 .iconHolder
 {
   pointer-events: all;
   padding: 10%;
+  height: 80%;
+  width: 80%;
+  background-color: rgb(26, 26, 26, 0.5);
+  border-radius: 10px;
+
   transition-duration: 500ms;
+  transition-timing-function: ease-out;
 }
 .iconHolder:hover
 {
-  transform: scale(1.2);
+  height: 90%;
+  width: 90%;
 }
 .technoHolder img,
 .iconHolder img
@@ -445,6 +467,9 @@ export default {
   background-color: rgb(26, 26, 26, 0.5);
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
+
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
 
   display: flex;
   flex-direction: row;

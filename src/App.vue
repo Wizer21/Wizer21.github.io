@@ -39,13 +39,15 @@ export default {
     // Update Using touch Screen
     let cachedTouch = false
     window.addEventListener('mousemove', () => {
-      if (!cachedTouch){
+      if (!cachedTouch && this.cursor){
         this.cursor.catchMouse()
       }
     })
     window.addEventListener('touchstart', () => {
-      this.cursor.catchToutch()
-      cachedTouch = true
+      if (this.cursor){
+        this.cursor.catchToutch()
+        cachedTouch = true
+      }
     })
   }
 }
