@@ -88,7 +88,7 @@ export default {
   height: 5px;
   width: 0%;
   background-color: rgb(219, 219, 211);
-  transition-duration: 500ms;
+  transition-duration: 200ms;
   transition-timing-function: ease-in;
 }
 .button:hover::after

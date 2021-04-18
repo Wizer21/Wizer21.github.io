@@ -152,6 +152,40 @@ export default {
     for (let i = 0; i < titleLetter.length; i++){
       titleLetter[i].style.transitionDelay = `${500 - (i * 100)}ms`
     }
+
+    // Optimisation
+    let hero = document.getElementById('hero')
+    let animationsPaused = false
+
+    window.addEventListener('scroll', () => {
+      let rect = hero.getBoundingClientRect()
+      // Start Animations
+      if (rect.bottom < 0){
+        if (!animationsPaused){
+          animationsPaused = true
+
+          for (let video of videoLoop){
+            video.pause()
+          }
+          for (let text of textPart){
+            text.style.animationPlayState = "paused"
+          }
+        }
+      }
+      else{        
+        // Pause Animations
+        if (animationsPaused){
+          animationsPaused = false
+
+          for (let video of videoLoop){
+            video.play()
+          }
+          for (let text of textPart){
+            text.style.animationPlayState = "running"
+          }
+        }
+      }
+    })
   }
 }
 </script>
@@ -218,7 +252,15 @@ export default {
   transition-timing-function: cubic-bezier(0.42, 0, 0.25, 1.38);
 
   grid-column: 1;
-  grid-row: 1;  
+  grid-row: 1; 
+
+  pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; 
 }
 #svgHide
 {

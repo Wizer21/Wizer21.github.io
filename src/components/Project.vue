@@ -93,6 +93,16 @@ export default {
         stackIndex--
       }    
     },
+    updateCardOffset(){
+      let cardStack = document.getElementsByClassName('cardBody')
+      let offset = window.innerWidth/250
+      let stackIndex = cardStack.length
+
+      for (let card of cardStack){
+        card.style.marginLeft = `${(stackIndex - card.dataset.z) * offset}px`
+        card.style.marginTop = `${((stackIndex - card.dataset.z) * offset)/2}px`
+      }    
+    },
     inView(){
       let deck = document.getElementById('deck')
       deck.style.marginTop = "0px"
@@ -115,8 +125,14 @@ export default {
     let project = document.getElementById('project')
     let part1 = document.getElementById('part1')
     let part2 = document.getElementById('part2')
+    
+    // Setup
+    this.setUpIndex()
+    part1.style.transform = "translateY(110%)"
+    part2.style.transform = "translateY(110%)"    
+
     window.addEventListener('resize', () => {
-      this.setCardOffset()
+      this.updateCardOffset()
     })
     let opened = false
     let inView = false
@@ -127,6 +143,8 @@ export default {
           inView = true
           part1.style.transform = "translateY(0%)"
           part2.style.transform = "translateY(0%)"
+          part1.style.animationPlayState = "running"
+          part2.style.animationPlayState = "running"
         }
       }
       else if(inView){
@@ -140,6 +158,9 @@ export default {
           part1.style.transform = "translateY(-110%)"
           part2.style.transform = "translateY(-110%)"
         }
+        
+        part1.style.animationPlayState = "paused"
+        part2.style.animationPlayState = "paused"
       }
       else if (!opened && rect.top <= rect.height/2){
         // Deploy Deck
@@ -147,10 +168,6 @@ export default {
         opened = true
       }
     })
-    // Setup
-    this.setUpIndex()
-    part1.style.transform = "translateY(110%)"
-    part2.style.transform = "translateY(110%)"    
     
     let isDragIn = true
     // Cards event
@@ -300,12 +317,6 @@ export default {
     function cardDroped(movedCard, fromMouse){
       cleanCardEffects()
 
-      for (let child of movedCard.children){
-        child.style.transform = ""
-        child.style.textShadow = ""
-        child.style.boxShadow = ""
-      }
-
       if (movedCard.dataset.isHold == "1"){
         let deck = document.getElementById('deck')
         movedCard.style.transition = "opacity 300ms, transform 300ms, margin 300ms, left 300ms, top 300ms, z-index 500ms"
@@ -326,6 +337,10 @@ export default {
 
         movedCard.style.left = `${deck.offsetLeft}px`
         movedCard.style.top = `${deck.offsetTop}px`
+        setTimeout(() => {
+          movedCard.style.left = ""
+          movedCard.style.top = ""
+        }, 300)
 
         let movedIndex = parseInt(movedCard.dataset.z)        
         if(isDragIn){          
@@ -610,6 +625,14 @@ export default {
   transform: rotate(10deg) translateY(-170%);
   z-index: 0;
   overflow: hidden;
+
+  pointer-events: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 #part1,
 #part2
