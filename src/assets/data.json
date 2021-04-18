@@ -2,8 +2,8 @@
   {
     "title": "Third Portfolio",
     "description": "Web portfolio, resuming all the projects I've realized.",
-    "git_link": "https://github.com/Wizer21/portfolio3",
-    "page_link": "https://boulangerie-showcase.herokuapp.com/",
+    "git_link": "https://github.com/Wizer21/Wizer21.github.io",
+    "page_link": "https://wizer21.github.io/",
     "color": "#212a35",
     "image": "thirdportfolio.jpg",
     "tech": ["javascript", "html", "css", "vuejs"]
@@ -29,8 +29,8 @@
   {
     "title": "Second Portfolio",
     "description": "Web portfolio.",
-    "git_link": "https://github.com/Wizer21/Wizer21.github.io",
-    "page_link": "https://wizer21.github.io/",
+    "git_link": "https://github.com/Wizer21/Second-portfolio",
+    "page_link": "https://simon-second-portfolio.herokuapp.com/",
     "color": "#9c27b0",
     "image": "port2.jpg",
     "tech": ["javascript", "html", "css", "vuejs", "threejs", "locomotive"]

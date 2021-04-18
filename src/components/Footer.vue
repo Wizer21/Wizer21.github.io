@@ -1,7 +1,7 @@
 <template>
   <div id="footer">
     <p id="footerTitle">
-      Thank you for visiting.
+      Thank you for your visit.
     </p>
     <span class="line"></span>
     <p id="footerText">
@@ -60,6 +60,7 @@ export default {
 {
   margin: 2vh;
   font-size: 2vw;
+  text-align: center;
 }
 .line
 {
@@ -127,5 +128,24 @@ a
   text-decoration: none;
   color: rgb(219, 219, 211);
 }
-
+@media screen and (max-width: 800px) {  
+  #footer
+  {
+    font-size: 6vw;
+  }
+  #footerText
+  {
+    font-size: 4vw;
+  }
+  
+  #buttonsHolder
+  {  
+    flex-direction: column;
+    margin-top: 10%;
+  }  
+  .button p 
+  {
+    font-size: 8vw;
+  }
+}
 </style>

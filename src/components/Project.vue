@@ -147,7 +147,10 @@ export default {
         opened = true
       }
     })
+    // Setup
     this.setUpIndex()
+    part1.style.transform = "translateY(110%)"
+    part2.style.transform = "translateY(110%)"    
     
     let isDragIn = true
     // Cards event
@@ -574,7 +577,7 @@ export default {
   margin-top: 25%;
   transition-duration: 500ms;
   clip-path: polygon(0 96%, 100% 100%, 100% 100%, 0 96%);
-  opacity: 0.7;
+  opacity: 1;
   z-index: 1;
 }
 #mouseIndicator
@@ -604,7 +607,7 @@ export default {
   display: grid;
   width: 150vw;
   margin-left: -25vw;
-  transform: rotate(10deg) translateY(-150%);
+  transform: rotate(10deg) translateY(-170%);
   z-index: 0;
   overflow: hidden;
 }
@@ -619,7 +622,6 @@ export default {
   grid-column: 1;
   
   white-space: nowrap;
-  transform: translateY(110%);
   transition-duration: 1000ms;
   transition-timing-function: cubic-bezier(0.42, 0, 0.25, 1.38);
 }
