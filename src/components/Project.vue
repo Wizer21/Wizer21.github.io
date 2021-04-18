@@ -7,6 +7,14 @@
         Indicator
       </p>
     </div>
+    <div id="creationBackgroundText">
+      <h2 id="part1">        
+        WebSites  WebSites  WebSites&nbsp;
+      </h2>
+      <h2 id="part2">
+        WebSites  WebSites  WebSites&nbsp;
+      </h2>
+    </div>
     <div id="deck">
       <div v-for="project of projectList" :key="project.title" class="cardBody" :data-color="project.color" :style="'background-color: ' + project.color">
         <p>
@@ -105,13 +113,36 @@ export default {
   },
   mounted(){
     let project = document.getElementById('project')
+    let part1 = document.getElementById('part1')
+    let part2 = document.getElementById('part2')
     window.addEventListener('resize', () => {
       this.setCardOffset()
     })
     let opened = false
+    let inView = false
     window.addEventListener('scroll', () => {
       let rect = project.getBoundingClientRect()
-      if (rect.top <= rect.height/2 && !opened){
+      if (rect.top <= rect.height*0.3 && rect.bottom >= rect.height/2){
+        if (!inView){
+          inView = true
+          part1.style.transform = "translateY(0%)"
+          part2.style.transform = "translateY(0%)"
+        }
+      }
+      else if(inView){
+        inView = false
+
+        if (rect.top > 0){
+          part1.style.transform = "translateY(110%)"
+          part2.style.transform = "translateY(110%)"
+        }
+        else{          
+          part1.style.transform = "translateY(-110%)"
+          part2.style.transform = "translateY(-110%)"
+        }
+      }
+      else if (!opened && rect.top <= rect.height/2){
+        // Deploy Deck
         this.inView()
         opened = true
       }
@@ -368,6 +399,14 @@ export default {
         mouseIndicator.style.opacity = 0
       })
     }
+
+    // Background Animation
+    part1.style.animation = `${this.$style['slide']} 30s infinite linear`
+    part2.style.animation = `${this.$style['slideStart']} 15s infinite linear`
+    setTimeout(() => {
+      part2.style.animation = `${this.$style['slide']} 30s infinite linear`
+
+    }, 15000)
   }
 }
 </script>
@@ -536,6 +575,7 @@ export default {
   transition-duration: 500ms;
   clip-path: polygon(0 96%, 100% 100%, 100% 100%, 0 96%);
   opacity: 0.7;
+  z-index: 1;
 }
 #mouseIndicator
 {
@@ -557,6 +597,32 @@ export default {
   font-size: 1.5em;
   margin: 0;
 }
+/* Sliding background */
+#creationBackgroundText
+{
+  position: fixed;
+  display: grid;
+  width: 150vw;
+  margin-left: -25vw;
+  transform: rotate(10deg) translateY(-150%);
+  z-index: 0;
+  overflow: hidden;
+}
+#part1,
+#part2
+{
+  font-size: 50vh;
+  color: #262626; 
+  margin: 0;
+
+  grid-row: 1;
+  grid-column: 1;
+  
+  white-space: nowrap;
+  transform: translateY(110%);
+  transition-duration: 1000ms;
+  transition-timing-function: cubic-bezier(0.42, 0, 0.25, 1.38);
+}
 @media screen and (max-width: 800px) {
   .cardBody p
   {  
@@ -566,5 +632,24 @@ export default {
   {  
     font-size: 1.4em;
   }
+}
+</style>
+
+<style module>
+@keyframes slide {
+  0%{
+    margin-left: -100%;
+  }
+  100%{
+    margin-left: 100%;
+  }  
+}
+@keyframes slideStart {
+  0%{
+    margin-left: 0%;
+  }
+  100%{
+    margin-left: 100%;
+  }  
 }
 </style>

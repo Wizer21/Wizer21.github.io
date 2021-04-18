@@ -1,29 +1,29 @@
 <template>
   <div id="footer">
-    <p>
+    <p id="footerTitle">
       Thank you for visiting !
     </p>
     <span class="line"></span>
-    <p>
-      Feel free to contact me.
+    <p id="footerText">
+      If you liked my work, feel free to contact me.
     </p>
     <div id="buttonsHolder">
-      <div class="button">
+      <a href="mailto:simon.tessier8@gmail.com?subject=We want you!&body=After discovering your amazing portfolio, we decided to invite you to join us!" target="_blank" class="button">
         <p class="frontButton">
           Mail
         </p>
         <p>
           Mail
         </p>
-      </div>
-      <div class="button">
+      </a>
+      <a href="https://twitter.com/Simon349_" target="_blank" class="button">
         <p class="frontButton">
           Twitter
         </p>
         <p>
           Twitter
         </p>
-      </div>
+      </a>
     </div>
   </div>
 </template>
@@ -52,9 +52,14 @@ export default {
   flex-direction: column;
   font-size: 4vw;
 }
-#footer p
+#footerTitle
+{  
+  margin: 2vh;
+}
+#footerText
 {
   margin: 2vh;
+  font-size: 2vw;
 }
 .line
 {
@@ -71,11 +76,23 @@ export default {
   justify-content: center;
   flex-direction: row;
 }
-.button
+.button 
 {
-  margin: 10% 20%;
-
   display: grid;
+  margin: 10%;
+}
+.button::after
+{
+  content: "";
+  height: 5px;
+  width: 0%;
+  background-color: rgb(219, 219, 211);
+  transition-duration: 500ms;
+  transition-timing-function: ease-in;
+}
+.button:hover::after
+{  
+  width: 100%;
 }
 .button p 
 {
@@ -105,4 +122,10 @@ export default {
 {
   clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
 }
+a
+{
+  text-decoration: none;
+  color: rgb(219, 219, 211);
+}
+
 </style>
