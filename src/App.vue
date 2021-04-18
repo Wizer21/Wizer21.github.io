@@ -71,6 +71,7 @@ export default {
       if (this.cursor){
         this.cursor.catchToutch()
         cachedTouch = true
+        document.getElementById('creationBackgroundText').style.display = "none"
       }
     })
   }

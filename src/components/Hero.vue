@@ -112,15 +112,21 @@ export default {
   mounted() {
     // Text Slide
     let textPart = document.getElementsByClassName('textPart')
-    textPart[0].style.animation = `${this.$style["slide"]} 30s infinite linear`
-    textPart[2].style.animation = `${this.$style["slide"]} 30s infinite linear reverse`
+    let local = this
+    let animationTimer = null
 
-    textPart[1].style.animation = `${this.$style["slideStart"]} 15s linear`
-    textPart[3].style.animation = `${this.$style["antiSlideStart"]} 15s linear`
-    setTimeout(() => {
-      textPart[1].style.animation = `${this.$style["slide"]} 30s infinite linear`
-      textPart[3].style.animation = `${this.$style["slide"]} 30s infinite linear reverse`
-    }, 15000)
+    function startAnimation(){
+      textPart[0].style.animation = `${local.$style["slide"]} 30s infinite linear`
+      textPart[2].style.animation = `${local.$style["slide"]} 30s infinite linear reverse`
+
+      textPart[1].style.animation = `${local.$style["slideStart"]} 15s linear`
+      textPart[3].style.animation = `${local.$style["antiSlideStart"]} 15s linear`
+      animationTimer = setTimeout(() => {
+        textPart[1].style.animation = `${local.$style["slide"]} 30s infinite linear`
+        textPart[3].style.animation = `${local.$style["slide"]} 30s infinite linear reverse`        
+      }, 15000)
+    }
+    startAnimation()
 
     // Morph Path
     document.getElementById('path').style.animation = `${this.$style["morph"]} 5s infinite`
@@ -163,12 +169,13 @@ export default {
       if (rect.bottom < 0){
         if (!animationsPaused){
           animationsPaused = true
+          clearTimeout(animationTimer)
 
           for (let video of videoLoop){
             video.pause()
           }
           for (let text of textPart){
-            text.style.animationPlayState = "paused"
+            text.style.animation = ""
           }
         }
       }
@@ -180,9 +187,7 @@ export default {
           for (let video of videoLoop){
             video.play()
           }
-          for (let text of textPart){
-            text.style.animationPlayState = "running"
-          }
+          startAnimation()          
         }
       }
     })

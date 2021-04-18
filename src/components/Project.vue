@@ -56,7 +56,9 @@ export default {
   data(){
     return {
       projectList: require('../assets/data.json'),
-      topCard: null
+      topCard: null,
+      isInView: false,
+      animationTimer: null
     }
   },
   methods: {
@@ -127,28 +129,27 @@ export default {
     let part2 = document.getElementById('part2')
     
     // Setup
-    this.setUpIndex()
-    part1.style.transform = "translateY(110%)"
-    part2.style.transform = "translateY(110%)"    
+    this.setUpIndex() 
 
     window.addEventListener('resize', () => {
       this.updateCardOffset()
     })
     let opened = false
-    let inView = false
     window.addEventListener('scroll', () => {
       let rect = project.getBoundingClientRect()
       if (rect.top <= rect.height*0.3 && rect.bottom >= rect.height*0.6){
-        if (!inView){
-          inView = true
+        // In View
+        if (!this.isInView){
+          this.isInView = true
           part1.style.transform = "translateY(0%)"
           part2.style.transform = "translateY(0%)"
-          part1.style.animationPlayState = "running"
-          part2.style.animationPlayState = "running"
+          
+          startAnimation()
         }
       }
-      else if(inView){
-        inView = false
+      else if(this.isInView){
+        // Out View
+        this.isInView = false
 
         if (rect.top > 0){
           part1.style.transform = "translateY(110%)"
@@ -159,8 +160,13 @@ export default {
           part2.style.transform = "translateY(-110%)"
         }
         
-        part1.style.animationPlayState = "paused"
-        part2.style.animationPlayState = "paused"
+        setTimeout(() => {
+          if (!this.isInView){
+            clearTimeout(this.animationTimer)
+            part1.style.animation = ""
+            part2.style.animation = ""
+          }
+        }, 1000)
       }
       else if (!opened && rect.top <= rect.height/2){
         // Deploy Deck
@@ -418,13 +424,16 @@ export default {
       })
     }
 
-    // Background Animation
-    part1.style.animation = `${this.$style['slide']} 30s infinite linear`
-    part2.style.animation = `${this.$style['slideStart']} 15s infinite linear`
-    setTimeout(() => {
-      part2.style.animation = `${this.$style['slide']} 30s infinite linear`
-
-    }, 15000)
+    function startAnimation(){
+      // Background Animation
+      part1.style.animation = `${local.$style['slide']} 30s infinite linear`
+      part2.style.animation = `${local.$style['slideStart']} 15s infinite linear`
+      local.animationTimer = setTimeout(() => {
+        if (local.isInView){
+          part2.style.animation = `${local.$style['slide']} 30s infinite linear`
+        }
+      }, 15000)
+    }
   }
 }
 </script>
@@ -643,6 +652,7 @@ export default {
 
   grid-row: 1;
   grid-column: 1;
+  transform: translateY(110%);
   
   white-space: nowrap;
   transition-duration: 1000ms;
