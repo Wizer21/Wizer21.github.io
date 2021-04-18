@@ -325,7 +325,7 @@ export default {
 
       if (movedCard.dataset.isHold == "1"){
         let deck = document.getElementById('deck')
-        movedCard.style.transition = "opacity 300ms, transform 300ms, margin 300ms, left 300ms, top 300ms, z-index 500ms"
+        movedCard.style.transition = "opacity 300ms, transform 300ms, margin 300ms, left 300ms, top 300ms"
         setTimeout(() => {
           movedCard.style.transition = "" 
         }, 300)
@@ -476,7 +476,7 @@ export default {
 
   grid-column: 1;
   grid-row: 1;
-  transition: opacity 300ms, transform 300ms, margin 500ms, z-index 500ms;
+  transition: opacity 300ms, transform 300ms, margin 500ms;
   transition-timing-function: ease-out;
 }
 .cardBody *
