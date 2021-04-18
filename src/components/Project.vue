@@ -122,7 +122,7 @@ export default {
     let inView = false
     window.addEventListener('scroll', () => {
       let rect = project.getBoundingClientRect()
-      if (rect.top <= rect.height*0.3 && rect.bottom >= rect.height/2){
+      if (rect.top <= rect.height*0.3 && rect.bottom >= rect.height*0.6){
         if (!inView){
           inView = true
           part1.style.transform = "translateY(0%)"

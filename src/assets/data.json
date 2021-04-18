@@ -1,11 +1,20 @@
 [
   {
+    "title": "Third Portfolio",
+    "description": "Web portfolio, resuming all the projects I've realized.",
+    "git_link": "https://github.com/Wizer21/portfolio3",
+    "page_link": "https://boulangerie-showcase.herokuapp.com/",
+    "color": "#212a35",
+    "image": "thirdportfolio.jpg",
+    "tech": ["javascript", "html", "css", "vuejs"]
+  }, 
+  {
     "title": "Boulangerie",
-    "description": "Presentation of a fictitious bakery",
+    "description": "Presentation of a fictitious bakery.",
     "git_link": "https://github.com/Wizer21/boulangerie",
     "page_link": "https://boulangerie-showcase.herokuapp.com/",
     "color": "#f44336",
-    "image": "boulangerie.png",
+    "image": "boulangerie.jpg",
     "tech": ["javascript", "html", "css", "vuejs", "locomotive"]
   }, 
   {
@@ -19,7 +28,7 @@
   },  
   {
     "title": "Second Portfolio",
-    "description": "Web portfolio, resuming all the projects I've realized.",
+    "description": "Web portfolio.",
     "git_link": "https://github.com/Wizer21/Wizer21.github.io",
     "page_link": "https://wizer21.github.io/",
     "color": "#9c27b0",
@@ -28,7 +37,7 @@
   },  
   {
     "title": "Monstera",
-    "description": "Page showcasing the Monstera Deliciosa",
+    "description": "Page showcasing the Monstera Deliciosa.",
     "git_link": "https://github.com/Wizer21/Monstera",
     "page_link": "https://monsteraplant.herokuapp.com/",
     "color": "#673ab7",
@@ -37,7 +46,7 @@
   },  
   {
     "title": "Reliance",
-    "description": "Showcase page of the music band Reliance",
+    "description": "Showcase page of the music band Reliance.",
     "git_link": "https://github.com/Wizer21/Shop",
     "page_link": "https://relianceband.herokuapp.com/",
     "color": "#a3956d",
@@ -46,7 +55,7 @@
   }, 
   {
     "title": "Shop",
-    "description": "Minimalist online plant store",
+    "description": "Minimalist online plant store.",
     "git_link": "https://github.com/Wizer21/Shop",
     "color": "#2196f3",
     "image": "shop.jpg",
@@ -54,7 +63,7 @@
   }, 
   {
     "title": "First Portfolio",
-    "description": "Web portfolio, resuming all the projects I've realized.",
+    "description": "Web portfolio.",
     "git_link": "https://github.com/Wizer21/Portfolio1",
     "page_link": "https://portfoliomonstera.herokuapp.com/index.html",
     "color": "#153805",

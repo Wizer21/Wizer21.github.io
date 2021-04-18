@@ -1,11 +1,11 @@
 <template>
   <div id="footer">
     <p id="footerTitle">
-      Thank you for visiting !
+      Thank you for visiting.
     </p>
     <span class="line"></span>
     <p id="footerText">
-      If you liked my work, feel free to contact me.
+      If you liked my work, feel free to contact me !
     </p>
     <div id="buttonsHolder">
       <a href="mailto:simon.tessier8@gmail.com?subject=We want you!&body=After discovering your amazing portfolio, we decided to invite you to join us!" target="_blank" class="button">
