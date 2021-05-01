@@ -2,8 +2,8 @@
     {
     "title": "Furnitures",
     "description": "Navigation throught a 3D scene.",
-    "git_link": "https://furniture-visit.herokuapp.com",
-    "page_link": "https://github.com/Wizer21/FurnitureShop",
+    "git_link": "https://github.com/Wizer21/FurnitureShop",
+    "page_link": "https://furniture-visit.herokuapp.com",
     "color": "#ff7043",
     "image": "furniture.jpg",
     "tech": ["vuejs", "threejs", "blender", "gsap"]
