@@ -32,7 +32,7 @@ export default {
     return {
       loadCount: 0,
       cursor: null,
-      totalCount: 52
+      totalCount: 53
     }
   },
   methods: {

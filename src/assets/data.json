@@ -6,7 +6,7 @@
     "page_link": "https://github.com/Wizer21/FurnitureShop",
     "color": "#ff7043",
     "image": "furniture.jpg",
-    "tech": ["vuejs", "gsap", "blender"]
+    "tech": ["vuejs", "threejs", "blender", "gsap"]
   }, 
   {
     "title": "Third Portfolio",
