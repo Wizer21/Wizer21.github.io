@@ -1,4 +1,13 @@
-[
+[  
+    {
+    "title": "Furnitures",
+    "description": "Navigation throught a 3D scene.",
+    "git_link": "https://furniture-visit.herokuapp.com",
+    "page_link": "https://github.com/Wizer21/FurnitureShop",
+    "color": "#ff7043",
+    "image": "furniture.jpg",
+    "tech": ["vuejs", "gsap", "blender"]
+  }, 
   {
     "title": "Third Portfolio",
     "description": "Web portfolio, resuming all the projects I've realized.",
@@ -6,7 +15,7 @@
     "page_link": "https://wizer21.github.io/",
     "color": "#212a35",
     "image": "thirdportfolio.jpg",
-    "tech": ["javascript", "html", "css", "vuejs"]
+    "tech": ["vuejs"]
   }, 
   {
     "title": "Boulangerie",
@@ -15,7 +24,7 @@
     "page_link": "https://boulangerie-showcase.herokuapp.com/",
     "color": "#f44336",
     "image": "boulangerie.jpg",
-    "tech": ["javascript", "html", "css", "vuejs", "locomotive"]
+    "tech": ["vuejs", "locomotive"]
   }, 
   {
     "title": "Deviant Art Gallery",
@@ -24,7 +33,7 @@
     "page_link": "https://deviant-art-gallery.herokuapp.com/",
     "color": "#00d38f",
     "image": "deviant.jpg",
-    "tech": ["javascript", "html", "css", "vuejs", "threejs"]
+    "tech": ["vuejs", "threejs"]
   },  
   {
     "title": "Second Portfolio",
@@ -33,7 +42,7 @@
     "page_link": "https://simon-second-portfolio.herokuapp.com/",
     "color": "#9c27b0",
     "image": "port2.jpg",
-    "tech": ["javascript", "html", "css", "vuejs", "threejs", "locomotive"]
+    "tech": ["vuejs", "threejs", "locomotive"]
   },  
   {
     "title": "Monstera",
@@ -42,7 +51,7 @@
     "page_link": "https://monsteraplant.herokuapp.com/",
     "color": "#673ab7",
     "image": "monstera_page.jpg",
-    "tech": ["javascript", "html", "css", "vuejs", "threejs", "locomotive"]
+    "tech": ["vuejs", "threejs", "locomotive"]
   },  
   {
     "title": "Reliance",
@@ -51,7 +60,7 @@
     "page_link": "https://relianceband.herokuapp.com/",
     "color": "#a3956d",
     "image": "reliance.jpg",
-    "tech": ["javascript", "html", "css", "vuejs", "threejs", "locomotive"]
+    "tech": ["vuejs", "threejs", "locomotive"]
   }, 
   {
     "title": "Shop",
@@ -59,7 +68,7 @@
     "git_link": "https://github.com/Wizer21/Shop",
     "color": "#2196f3",
     "image": "shop.jpg",
-    "tech": ["javascript", "html", "css", "vuejs", "lowdb"]
+    "tech": ["vuejs", "lowdb"]
   }, 
   {
     "title": "First Portfolio",
@@ -68,7 +77,7 @@
     "page_link": "https://portfoliomonstera.herokuapp.com/index.html",
     "color": "#153805",
     "image": "portfolio.jpg",
-    "tech": ["javascript", "html", "css", "threejs", "matterjs"]
+    "tech": ["threejs", "matterjs"]
   }, 
   {
     "title": "Swich Network",
@@ -76,6 +85,6 @@
     "git_link": "https://github.com/Wizer21/Swich_network",
     "color": "#00bcd4",
     "image": "network.jpg",
-    "tech": ["python", "django", "javascript", "html", "css", "bulma"]
+    "tech": ["python", "django", "bulma"]
   }
 ]
