@@ -45,6 +45,7 @@ export default {
   margin-top: 20%;
   height: 60vh;
   width: 100vw;
+  z-index: 3;
 
   display: flex;
   align-items: center;

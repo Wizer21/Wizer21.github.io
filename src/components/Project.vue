@@ -197,7 +197,6 @@ export default {
       card.addEventListener('mousemove', event => {
         drag(card, event, true)
       })      
-
       // FROM TOUCH
       card.addEventListener('touchstart', event => {
         dragStart(card, event, false)
@@ -443,6 +442,7 @@ export default {
 {
   height: 100vh;
   width: 100vw;
+  z-index: 3;
 
   display: flex;
   align-items: center;
@@ -473,6 +473,7 @@ export default {
   border-radius: 20px;
   box-shadow: 0 0 5px #1a1a1a;
   font-family: 'Antonio', sans-serif;
+  font-size: 0.5em;
 
   grid-column: 1;
   grid-row: 1;

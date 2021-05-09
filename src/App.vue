@@ -12,6 +12,7 @@
   <Hero ref="heroref"/>
   <Project @newLoad="newLoad"/>
   <Footer />
+  <Scene />
   <svg fill="none" id="svgHide">
     <clipPath id="cursorClip" clipPathUnits="objectBoundingBox">
       <path id="cursorPath" d="M 0.0789 0.5026 C 0.0789 0.1789 0.377 0.0767 0.5304 0.0681 C 0.7604 0.0426 0.9222 0.1874 0.9222 0.4259 C 0.9392 0.6644 0.7518 0.8774 0.5304 0.9115 C 0.2918 0.9455 0.0874 0.7496 0.0789 0.5026" />
@@ -23,11 +24,12 @@
 import Project from './components/Project.vue'
 import Hero from './components/Hero.vue'
 import Footer from './components/Footer.vue'
+import Scene from './components/Scene.vue'
 import Cursor from './js/cursor.js'
 
 export default {
   name: 'App',
-  components: { Project, Hero, Footer },
+  components: { Project, Hero, Footer, Scene },
   data(){
     return {
       loadCount: 0,
@@ -109,8 +111,8 @@ body
 #cursor
 {
   position:fixed;
-  height: 40px;
-  width: 40px;
+  height: 25px;
+  width: 25px;
   background-color: rgb(255, 255, 255);  
   mix-blend-mode: difference;
   pointer-events: none;
