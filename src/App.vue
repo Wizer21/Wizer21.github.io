@@ -9,10 +9,10 @@
       0%
     </p>
   </div>
-  <Hero ref="heroref"/>
-  <Project @newLoad="newLoad"/>
-  <Footer />
-  <Scene />
+  <Hero ref="heroref" id="hero"/>
+  <Project @newLoad="newLoad" id="project"/>
+  <Footer id="footer"/>
+  <Scene ref="sceneRef"/>
   <svg fill="none" id="svgHide">
     <clipPath id="cursorClip" clipPathUnits="objectBoundingBox">
       <path id="cursorPath" d="M 0.0789 0.5026 C 0.0789 0.1789 0.377 0.0767 0.5304 0.0681 C 0.7604 0.0426 0.9222 0.1874 0.9222 0.4259 C 0.9392 0.6644 0.7518 0.8774 0.5304 0.9115 C 0.2918 0.9455 0.0874 0.7496 0.0789 0.5026" />
@@ -74,6 +74,47 @@ export default {
         this.cursor.catchToutch()
         cachedTouch = true
         document.getElementById('creationBackgroundText').style.display = "none"
+      }
+    })
+
+    // Scroll Position
+    const project = document.getElementById('project')
+    const footer = document.getElementById('footer')
+
+    let inHeader = true
+    let inProjects = false
+    let inFooter = false
+    window.addEventListener('scroll', () => {
+      let projectRect = project.getBoundingClientRect()
+      let footerRect = footer.getBoundingClientRect()
+
+      if(footerRect.top - footerRect.height < 0){
+        if (!inFooter){
+          inHeader = false
+          inProjects = false
+          inFooter = true
+
+          this.$refs.sceneRef.toFooter()
+        }
+      }
+      else if(projectRect.top - projectRect.height/2 < 0){    
+        if (!inProjects){
+          inHeader = false
+          inProjects = true
+          inFooter = false
+
+          this.$refs.sceneRef.toProjects()
+        }
+      }
+      else{   
+        console.log(inHeader);     
+        if (!inHeader){
+          inHeader = true
+          inProjects = false
+          inFooter = false
+
+          this.$refs.sceneRef.toHeader()
+        }
       }
     })
   }

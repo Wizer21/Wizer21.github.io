@@ -77,7 +77,6 @@ export default {
 
         stackIndex--
       }    
-
     },
     setCardOffset(){
       let cardStack = document.getElementsByClassName('cardBody')
@@ -124,9 +123,9 @@ export default {
     }
   },
   mounted(){
-    let project = document.getElementById('project')
-    let part1 = document.getElementById('part1')
-    let part2 = document.getElementById('part2')
+    const project = document.getElementById('project')
+    const part1 = document.getElementById('part1')
+    const part2 = document.getElementById('part2')
     
     // Setup
     this.setUpIndex() 
@@ -134,6 +133,7 @@ export default {
     window.addEventListener('resize', () => {
       this.updateCardOffset()
     })
+
     let opened = false
     window.addEventListener('scroll', () => {
       let rect = project.getBoundingClientRect()
@@ -269,7 +269,7 @@ export default {
       }
     }
 
-    let mouseIndicator = document.getElementById('mouseIndicator')
+    const mouseIndicator = document.getElementById('mouseIndicator')
     project.addEventListener('mousemove', event => {
       if (this.topCard.dataset.isHold == "0"){
         let rect = project.getBoundingClientRect()
