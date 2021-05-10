@@ -90,15 +90,15 @@ export default {
     }
 
     // Setup Title Pos
-    let titleLetter = document.getElementsByClassName('titleLetter')
+    const titleLetter = document.getElementsByClassName('titleLetter')
     for (let i = 0; i < titleLetter.length; i++){
       titleLetter[i].style.transitionDelay = `${500 - (i * 100)}ms`
     }
 
     // Optimisation
-    let hero = document.getElementById('hero')
+    const hero = document.getElementById('hero')
     let animationsPaused = false
-
+  
     window.addEventListener('scroll', () => {
       let rect = hero.getBoundingClientRect()
       // Start Animations
@@ -136,7 +136,6 @@ export default {
 {
   height: 100vh;
   width: 100vw;
-  z-index: 3;
 
   display: flex;
   align-items: center;

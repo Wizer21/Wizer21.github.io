@@ -442,7 +442,6 @@ export default {
 {
   height: 100vh;
   width: 100vw;
-  z-index: 3;
 
   display: flex;
   align-items: center;

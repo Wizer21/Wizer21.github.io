@@ -15,7 +15,7 @@
     "page_link": "https://wizer21.github.io/",
     "color": "#212a35",
     "image": "thirdportfolio.jpg",
-    "tech": ["vuejs"]
+    "tech": ["vuejs", "threejs", "gsap"]
   }, 
   {
     "title": "Boulangerie",

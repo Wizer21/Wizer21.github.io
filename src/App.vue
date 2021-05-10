@@ -10,8 +10,8 @@
     </p>
   </div>
   <Hero ref="heroref" id="hero"/>
-  <Project @newLoad="newLoad" id="project"/>
-  <Footer id="footer"/>
+  <Project @newLoad="newLoad"/>
+  <Footer/>
   <Scene ref="sceneRef"/>
   <svg fill="none" id="svgHide">
     <clipPath id="cursorClip" clipPathUnits="objectBoundingBox">
@@ -34,7 +34,7 @@ export default {
     return {
       loadCount: 0,
       cursor: null,
-      totalCount: 53
+      totalCount: 55
     }
   },
   methods: {
@@ -50,11 +50,38 @@ export default {
 
       if(this.loadCount == this.totalCount){
         setTimeout(() => {
+          window.scrollTo(0, 0)
           loadingScreen.style.clipPath = "polygon(0 0, 0 0, 0 100%, 0 100%)"
 
           setTimeout(() => {
             this.$refs.heroref.loaded()
-            loadingScreen.style.display = "none"
+            loadingScreen.style.display = "none"    
+            
+            setTimeout(() => {
+              this.$refs.sceneRef.open()            
+              // Scroll Position
+              const project = document.getElementById('project')
+
+              let inHeader = true
+              window.addEventListener('scroll', () => {
+                let projectRect = project.getBoundingClientRect()
+
+                if(projectRect.top - projectRect.height < 0){
+                  if (inHeader){
+                    inHeader = false
+
+                    this.$refs.sceneRef.close()
+                  }
+                }
+                else{     
+                  if (!inHeader){
+                    inHeader = true
+
+                    this.$refs.sceneRef.open()
+                  }
+                }
+              })
+            }, 2500)
           }, 500)   
         }, 500)     
       }
@@ -74,47 +101,6 @@ export default {
         this.cursor.catchToutch()
         cachedTouch = true
         document.getElementById('creationBackgroundText').style.display = "none"
-      }
-    })
-
-    // Scroll Position
-    const project = document.getElementById('project')
-    const footer = document.getElementById('footer')
-
-    let inHeader = true
-    let inProjects = false
-    let inFooter = false
-    window.addEventListener('scroll', () => {
-      let projectRect = project.getBoundingClientRect()
-      let footerRect = footer.getBoundingClientRect()
-
-      if(footerRect.top - footerRect.height < 0){
-        if (!inFooter){
-          inHeader = false
-          inProjects = false
-          inFooter = true
-
-          this.$refs.sceneRef.toFooter()
-        }
-      }
-      else if(projectRect.top - projectRect.height/2 < 0){    
-        if (!inProjects){
-          inHeader = false
-          inProjects = true
-          inFooter = false
-
-          this.$refs.sceneRef.toProjects()
-        }
-      }
-      else{   
-        console.log(inHeader);     
-        if (!inHeader){
-          inHeader = true
-          inProjects = false
-          inFooter = false
-
-          this.$refs.sceneRef.toHeader()
-        }
       }
     })
   }

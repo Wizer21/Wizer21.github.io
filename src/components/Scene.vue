@@ -1,6 +1,5 @@
 <template>
   <canvas id="scene3D">
-
   </canvas>
 </template>
 
@@ -17,23 +16,20 @@ export default {
     }
   },
   methods: {
-    toHeader(){
+    open(){
       this.updateMeshPos(1.5, 1.5)
 
-      gsap.to(this.shader.uniforms.uAlpha, {value: 1, duration: 2})
-      gsap.to(this.shader.uniforms.uStrenght, {value: 1, duration: 2})
+      document.getElementById('scene3D').style.pointerEvents = "all"
+      
+      gsap.to(this.shader.uniforms.uAlpha, {value: 1, duration: 3})
+      gsap.to(this.shader.uniforms.uStrenght, {value: 1, duration: 1.5})
     },
-    toProjects(){  
-      this.updateMeshPos(-1.5, 0)
-
-      gsap.to(this.shader.uniforms.uAlpha, {value: 1, duration: 2})
-      gsap.to(this.shader.uniforms.uStrenght, {value: 0, duration: 2})
-    },    
-    toFooter(){  
+    close(){  
       this.updateMeshPos(0, 0)
 
-      gsap.to(this.shader.uniforms.uAlpha, {value: 0, duration: 2})
-      gsap.to(this.shader.uniforms.uStrenght, {value: 0, duration: 2})
+      document.getElementById('scene3D').style.pointerEvents = "none"
+      gsap.to(this.shader.uniforms.uAlpha, {value: 0, duration: 3})
+      gsap.to(this.shader.uniforms.uStrenght, {value: 0, duration: 1.5})
     }
   },
   mounted(){
@@ -64,7 +60,7 @@ export default {
       uniforms: {
         uTime: { value: 0},
         uStrenght: { value: 1.0},
-        uAlpha: { value: 1.0 }
+        uAlpha: { value: 0 }
       },
       vertexShader: `
       vec4 permute(vec4 x)
@@ -251,7 +247,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 0;
 }
 
 </style>
